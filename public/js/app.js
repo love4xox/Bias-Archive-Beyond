@@ -73,19 +73,36 @@
    }
    
    /* ==============================================================
-      4. UI & FORMATTING MODULE
+      4. UI & FORMATTING MODULE (마크다운 파서 및 탭 관리)
       ============================================================== */
    function formatMarkdown(text) {
      if (!text) return "";
      return text
+       // 1. 헤딩 태그
        .replace(/^### (.*$)/gim, '<h4 style="color:var(--gold-dark); margin-top:20px;">$1</h4>')
        .replace(/^## (.*$)/gim, '<h3 style="color:var(--gold-dark); margin-top:24px; border-left:3px solid var(--gold-accent); padding-left:10px;">$1</h3>')
        .replace(/^# (.*$)/gim, '<h2 style="color:var(--gold-dark); margin-top:28px;">$1</h2>')
-       .replace(/\*\*(.*?)\*\*/gim, '<strong style="color:var(--gold-dark);">$1</strong>')
-       .replace(/^\* (.*$)/gim, '<li style="margin-left:20px;">$1</li>')
-       .replace(/^\- (.*$)/gim, '<li style="margin-left:20px;">$1</li>')
-       .replace(/\n/gim, '<br/>');
+       // 2. 얇은 구분선 (---)
+       .replace(/^---$/gm, '<hr class="editorial-divider">')
+       // 3. 인용구 (> 문장)
+       .replace(/^>\s*(.+)$/gm, '<blockquote>$1</blockquote>')
+       // 4. 볼드 + 이탤릭 (***텍스트***)
+       .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+       // 5. 볼드 (**텍스트**)
+       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
+       // 6. 이탤릭 (*텍스트*)
+       .replace(/\*(.*?)\*/g, '<em>$1</em>')
+       // 7. 인라인 태그 / 코드 (`#태그`)
+       .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>')
+       // 8. 불릿 리스트 (*, -, •)
+       .replace(/^[•\-\*]\s*(.+)$/gm, '<li style="margin-left:20px; margin-bottom:6px;">$1</li>')
+       // 9. 줄바꿈
+       .replace(/\n\n/g, '<br><br>')
+       .replace(/\n/g, '<br/>');
    }
+   
+   // 하위/상위 호환 함수 매핑
+   const parseMarkdown = formatMarkdown;
    
    function switchTab(tabName) {
      document.querySelectorAll(".tab-content").forEach((el) => el.classList.remove("active"));
@@ -101,11 +118,11 @@
      const sideLabel = document.getElementById("page-side-label");
      if (sideLabel) {
        const tabTitles = {
-         chat: "PAGE 01 · CRITIQUE EDITION ◆",
-         curation: "PAGE 02 · SELECTION PICKS ◆",
+         chat: "PAGE 01 · CRITIC EDITION ◆",
+         curation: "PAGE 02 · SELECTION ◆",
          archive: "PAGE 03 · ARCHIVE BOOK ◆",
          essay: "PAGE 04 · ESSAY NOTE ◆",
-         moodboard: "PAGE 05 · MOODBOARD PALETTE ◆",
+         moodboard: "PAGE 05 · MOODBOARD ◆",
        };
        sideLabel.textContent = tabTitles[tabName] || "PAGE 01 · EDITORIAL ◆";
      }
@@ -148,7 +165,7 @@
                  <span class="entry-date">${date}</span>
                </div>
                <h3 class="entry-title">${item.title || item.message}</h3>
-               <div class="markdown-body">${formatMarkdown(item.reply)}</div>
+               <div class="markdown-body">${parseMarkdown(item.reply)}</div>
                <div class="entry-bottom">
                  <a href="${ytSearch}" target="_blank" rel="noopener noreferrer" class="yt-link">
                    ▶ 관련 아카이브 영상 탐색
@@ -270,7 +287,7 @@
              resultTargetTitle.textContent = `[${category}] ${message} : 서사 평론`;
            }
            if (resultText) {
-             resultText.innerHTML = formatMarkdown(data.reply);
+             resultText.innerHTML = parseMarkdown(data.reply);
            }
            if (resultContainer) {
              resultContainer.style.display = "block";
@@ -314,7 +331,7 @@
              curationCardList.innerHTML = `
                <div class="curation-column" style="border-left: 4px solid var(--gold-accent);">
                  <div class="markdown-body">
-                   ${formatMarkdown(data.reply)}
+                   ${parseMarkdown(data.reply)}
                  </div>
                </div>
              `;
@@ -369,7 +386,7 @@
            newCard.innerHTML = `
              <h4>✦ ${keyword} : Aesthetic Mood</h4>
              <div class="markdown-body" style="font-size: 0.95rem; margin-top: 8px;">
-               ${formatMarkdown(data.reply)}
+               ${parseMarkdown(data.reply)}
              </div>
            `;
    
