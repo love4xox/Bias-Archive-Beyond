@@ -294,55 +294,54 @@
      });
    
      if (analyzeForm) {
-       analyzeForm.addEventListener("submit", async (e) => {
-         e.preventDefault();
-         console.log("발간 의뢰 버튼이 클릭되었습니다!");
-   
-         const message = inputMessage ? inputMessage.value.trim() : "";
-         const category = categorySelect ? categorySelect.value : "일반";
-   
-         if (!message) {
-           alert("키워드를 입력해 주세요.");
-           return;
-         }
-   
-         try {
-           if (loadingSpinner) loadingSpinner.style.display = "flex";
-           if (resultContainer) resultContainer.style.display = "none";
-   
-           console.log("API 통신 시작...", message, category);
-           const data = await sendChatMessage(message, category);
-           console.log("API 통신 성공:", data);
-   
-           if (!data || !data.reply) {
-             throw new Error("서버로부터 올바른 응답을 받지 못했습니다.");
-           }
-   
-           currentResult = {
-             title: message,
-             message: message,
-             category: data.category || category,
-             reply: data.reply,
-           };
-   
-           if (resultTargetTitle) {
-             resultTargetTitle.textContent = `[${category}] ${message} : 서사 평론`;
-           }
-           if (resultText) {
-             resultText.innerHTML = parseMarkdown(data.reply);
-           }
-           if (resultContainer) {
-             resultContainer.style.display = "block";
-             resultContainer.scrollIntoView({ behavior: "smooth" });
-           }
-         } catch (error) {
-           console.error("평론 작성 중 상세 오류:", error);
-           alert("평론 작성 중 오류가 발생했습니다: " + error.message);
-         } finally {
-           if (loadingSpinner) loadingSpinner.style.display = "none";
-         }
-       });
-     }
+      analyzeForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        console.log("발간 의뢰 버튼이 클릭되었습니다!");
+  
+        const message = inputMessage ? inputMessage.value.trim() : "";
+        const category = categorySelect ? categorySelect.value : "일반";
+  
+        if (!message) {
+          alert("키워드를 입력해 주세요.");
+          return;
+        }
+  
+        try {
+          if (loadingSpinner) loadingSpinner.style.display = "flex";
+          if (resultContainer) resultContainer.style.display = "none";
+  
+          console.log("API 통신 시작...", message, category);
+          const data = await sendChatMessage(message, category);
+          console.log("API 통신 성공 응답:", data);
+  
+          // 응답 데이터에서 텍스트를 안전하게 추출 (reply 또는 text 등 어떤 형태든 수용)
+          const replyText = data.reply || data.text || (typeof data === 'string' ? data : JSON.stringify(data));
+  
+          currentResult = {
+            title: message,
+            message: message,
+            category: data.category || category,
+            reply: replyText,
+          };
+  
+          if (resultTargetTitle) {
+            resultTargetTitle.textContent = `[${category}] ${message} : 서사 평론`;
+          }
+          if (resultText) {
+            resultText.innerHTML = parseMarkdown(replyText);
+          }
+          if (resultContainer) {
+            resultContainer.style.display = "block";
+            resultContainer.scrollIntoView({ behavior: "smooth" });
+          }
+        } catch (error) {
+          console.error("평론 작성 중 상세 오류:", error);
+          alert("평론 작성 중 오류가 발생했습니다: " + error.message);
+        } finally {
+          if (loadingSpinner) loadingSpinner.style.display = "none";
+        }
+      });
+    }
    
      if (saveArchiveBtn) {
        saveArchiveBtn.addEventListener("click", () => {
