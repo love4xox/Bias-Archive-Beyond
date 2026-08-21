@@ -87,7 +87,7 @@
      // 불필요한 백틱 코드 블록 기호 제거
      parsed = parsed.replace(/```[a-z]*\n?/g, '').replace(/```/g, '');
    
-     // 1. [유튜브 버튼 주입]: 대괄호 태그([Music Video], [Album], [드라마] 등)가 포함된 항목을 감지하여 버튼 HTML 생성
+     // 1. [유튜브 버튼 주입]: 대괄호 태그가 포함된 항목을 감지하여 버튼 HTML 생성
      parsed = parsed.replace(/^[ \t]*(?:[①-⑨0-9]+\.?)?\s*(?:[•\-\*]?\s*)?(?:[\p{Emoji}\u2600-\u27BF]\s*)*((?:\[[^\]]+\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
        if (/연관\s*콘텐츠|추천\s*콘텐츠|분석\s*리포트|영업\s*한마디/i.test(lineContent)) {
          return match;
@@ -296,7 +296,9 @@
      if (analyzeForm) {
        analyzeForm.addEventListener("submit", async (e) => {
          e.preventDefault();
-         const message = inputMessage.value.trim();
+         console.log("발간 의뢰 버튼이 클릭되었습니다!");
+   
+         const message = inputMessage ? inputMessage.value.trim() : "";
          const category = categorySelect ? categorySelect.value : "일반";
    
          if (!message) {
@@ -308,7 +310,13 @@
            if (loadingSpinner) loadingSpinner.style.display = "flex";
            if (resultContainer) resultContainer.style.display = "none";
    
+           console.log("API 통신 시작...", message, category);
            const data = await sendChatMessage(message, category);
+           console.log("API 통신 성공:", data);
+   
+           if (!data || !data.reply) {
+             throw new Error("서버로부터 올바른 응답을 받지 못했습니다.");
+           }
    
            currentResult = {
              title: message,
@@ -328,7 +336,8 @@
              resultContainer.scrollIntoView({ behavior: "smooth" });
            }
          } catch (error) {
-           alert("평론 작성 중 오류: " + error.message);
+           console.error("평론 작성 중 상세 오류:", error);
+           alert("평론 작성 중 오류가 발생했습니다: " + error.message);
          } finally {
            if (loadingSpinner) loadingSpinner.style.display = "none";
          }
