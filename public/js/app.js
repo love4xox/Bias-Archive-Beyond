@@ -97,6 +97,19 @@
      const targetBtn = document.querySelector(`[data-tab="${tabName}"]`);
      if (targetBtn) targetBtn.classList.add("active");
    
+     // 탭별 우측 페이지 인덱스 라벨 동적 변경
+     const sideLabel = document.getElementById("page-side-label");
+     if (sideLabel) {
+       const tabTitles = {
+         chat: "PAGE 01 · CRITIQUE EDITION ◆",
+         curation: "PAGE 02 · SELECTION PICKS ◆",
+         archive: "PAGE 03 · ARCHIVE BOOK ◆",
+         essay: "PAGE 04 · ESSAY NOTE ◆",
+         moodboard: "PAGE 05 · MOODBOARD PALETTE ◆",
+       };
+       sideLabel.textContent = tabTitles[tabName] || "PAGE 01 · EDITORIAL ◆";
+     }
+   
      if (tabName === "archive") {
        renderArchiveList();
      }

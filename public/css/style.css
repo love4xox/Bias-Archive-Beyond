@@ -1,486 +1,639 @@
 /* ==============================================================
    BIAS ARCHIVE : CINEMATIC EDITORIAL MAGAZINE
-   Color Palette: Charcoal Black(#191919), Cream Ivory(#F7F5F0), Antique Gold(#C5A880)
    ============================================================== */
 
-/* 1. 웹 폰트 로드 */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap');
-
-/* 2. 전역 변수 (라이트 모드: 하이엔드 종이 매거진 지면) */
-:root, [data-theme="light"] {
-  --bg-color: #f7f5f0;           /* 크림 아이보리 배경 */
-  --bg-paper: #ffffff;           /* 종이 아티클 박스 */
-  --text-main: #191919;          /* 차콜 블랙 텍스트 */
-  --text-muted: #6e6a63;         /* 에디토리얼 서브 텍스트 */
-  --text-light: #9e9a91;         /* 메타/날짜용 텍스트 */
-  --gold-accent: #c5a880;        /* 앤틱 골드 포인트 */
-  --gold-dark: #9a7d55;          /* 앤틱 골드 딥 컬러 */
-  --border-line: #e3decb;        /* 얇고 섬세한 내지 구분선 */
-  --border-dark: #191919;        /* 굵은 매거진 프레임 테두리 */
-  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  --input-bg: #fcfbfa;
-
-  /* Typography */
-  --font-serif-title: 'Cinzel', serif;
-  --font-serif-sub: 'Cormorant Garamond', serif;
-  --font-serif-body: 'Noto Serif KR', serif;
-  --font-sans: 'Pretendard', sans-serif;
-
-  --transition: all 0.25s ease-in-out;
-}
-
-/* 3. 다크 모드 오버라이드 (시네마틱 팜플렛 무드) */
-[data-theme="dark"] {
-  --bg-color: #141416;
-  --bg-paper: #1c1c1f;
-  --text-main: #f7f5f0;
-  --text-muted: #a6a29a;
-  --text-light: #6e6b65;
-  --gold-accent: #c5a880;
-  --gold-dark: #dfc7a5;
-  --border-line: #2e2d2a;
-  --border-dark: #c5a880;
-  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
-  --input-bg: #141416;
-}
-
-/* 4. 기본 초기화 */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-serif-body), var(--font-sans), serif;
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  line-height: 1.8;
-  letter-spacing: -0.01em;
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  padding: 40px 20px 80px;
-}
-
-button, input, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* 5. 매거진 헤더 */
-.magazine-header {
-  text-align: center;
-  margin-bottom: 48px;
-  border-bottom: 2px solid var(--border-dark);
-  padding-bottom: 24px;
-}
-
-.header-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-line);
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  font-family: var(--font-serif-title);
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
-  color: var(--text-muted);
-}
-
-.theme-toggle-btn {
-  background: transparent;
-  border: 1px solid var(--border-line);
-  color: var(--text-main);
-  padding: 4px 14px;
-  font-size: 0.75rem;
-  font-family: var(--font-serif-title);
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.theme-toggle-btn:hover {
-  background: var(--border-dark);
-  color: var(--bg-paper);
-  border-color: var(--border-dark);
-}
-
-.main-title {
-  font-family: var(--font-serif-title);
-  font-size: 3.5rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  line-height: 1.1;
-  color: var(--text-main);
-  margin-bottom: 12px;
-  text-transform: uppercase;
-}
-
-.sub-title {
-  font-family: var(--font-serif-sub);
-  font-size: 1.15rem;
-  font-style: italic;
-  letter-spacing: 0.08em;
-  color: var(--gold-dark);
-}
-
-/* 6. 네비게이션 탭 */
-.magazine-nav {
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid var(--border-line);
-  border-bottom: 1px solid var(--border-line);
-  margin-bottom: 40px;
-  gap: 32px;
-  padding: 10px 0;
-}
-
-.nav-btn {
-  background: transparent;
-  border: none;
-  font-family: var(--font-serif-title), var(--font-serif-body);
-  font-size: 0.9rem;
-  letter-spacing: 0.15em;
-  color: var(--text-muted);
-  padding: 8px 12px;
-  cursor: pointer;
-  position: relative;
-  transition: var(--transition);
-}
-
-.nav-btn:hover {
-  color: var(--text-main);
-}
-
-.nav-btn.active {
-  color: var(--text-main);
-  font-weight: 700;
-}
-
-.nav-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -11px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--border-dark);
-}
-
-/* 탭 전환 제어 */
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-  animation: editorialFadeIn 0.4s ease-out;
-}
-
-@keyframes editorialFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 7. 아티클 페이퍼 카드 */
-.paper-card {
-  background-color: var(--bg-paper);
-  border: 1px solid var(--border-line);
-  box-shadow: var(--card-shadow);
-  padding: 40px;
-  margin-bottom: 36px;
-  position: relative;
-}
-
-.section-label {
-  font-family: var(--font-serif-title);
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  color: var(--gold-accent);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.card-heading {
-  font-family: var(--font-serif-body);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.card-intro {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 28px;
-}
-
-/* 8. 폼 필드 & 제출 버튼 */
-.magazine-form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-group label {
-  font-family: var(--font-serif-title), var(--font-serif-body);
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-}
-
-.select-box, .text-input {
-  background-color: var(--input-bg);
-  border: 1px solid var(--border-line);
-  padding: 14px 18px;
-  font-family: var(--font-serif-body);
-  font-size: 1rem;
-  color: var(--text-main);
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.select-box:focus, .text-input:focus {
-  border-color: var(--gold-accent);
-}
-
-.btn-submit {
-  background-color: var(--border-dark);
-  color: var(--bg-paper);
-  border: 1px solid var(--border-dark);
-  padding: 16px 24px;
-  font-family: var(--font-serif-title), var(--font-serif-body);
-  font-size: 0.95rem;
-  letter-spacing: 0.15em;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transition);
-  margin-top: 8px;
-}
-
-.btn-submit:hover {
-  background-color: var(--gold-accent);
-  border-color: var(--gold-accent);
-  color: #ffffff;
-}
-
-.loading-indicator {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 0;
-  font-family: var(--font-serif-sub), var(--font-serif-body);
-  font-style: italic;
-  color: var(--gold-dark);
-  font-size: 1.1rem;
-}
-
-/* 9. 평론 칼럼 리포트 출력 */
-.report-header {
-  border-bottom: 1px solid var(--border-line);
-  padding-bottom: 20px;
-  margin-bottom: 24px;
-}
-
-.report-title {
-  font-family: var(--font-serif-body);
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.markdown-body {
-  font-family: var(--font-serif-body);
-  font-size: 1.05rem;
-  line-height: 2;
-  color: var(--text-main);
-}
-
-.markdown-body h2, .markdown-body h3, .markdown-body h4 {
-  font-family: var(--font-serif-body);
-  color: var(--gold-dark);
-  margin-top: 28px;
-  margin-bottom: 10px;
-  border-left: 3px solid var(--gold-accent);
-  padding-left: 12px;
-}
-
-.markdown-body strong {
-  color: var(--gold-dark);
-  font-weight: 700;
-}
-
-.markdown-body li {
-  margin-left: 24px;
-  margin-bottom: 6px;
-}
-
-.report-footer {
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-line);
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* 10. PAGE 2 & PAGE 5: 큐레이션 & 무드보드 레이아웃 (세로 와이드 1단 방식) */
-.curation-banner {
-  border: 1px solid var(--border-dark);
-  padding: 36px;
-  background-color: var(--bg-paper);
-  margin-bottom: 30px;
-}
-
-.curation-banner h3 {
-  font-family: var(--font-serif-title);
-  font-size: 1.6rem;
-  letter-spacing: 0.15em;
-  margin-bottom: 8px;
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.quick-tag {
-  background: transparent;
-  border: 1px solid var(--border-line);
-  color: var(--text-main);
-  padding: 6px 16px;
-  font-family: var(--font-serif-body);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.quick-tag:hover {
-  border-color: var(--gold-accent);
-  color: var(--gold-dark);
-}
-
-/* 가로로 한 단씩 넓게 배치 (1-Column Stack) */
-.curation-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.curation-column {
-  background: var(--bg-paper);
-  border: 1px solid var(--border-line);
-  padding: 28px;
-  transition: var(--transition);
-}
-
-.curation-column:hover {
-  border-color: var(--gold-accent);
-}
-
-.curation-column h4 {
-  font-family: var(--font-serif-body);
-  font-size: 1.15rem;
-  color: var(--gold-dark);
-  margin-bottom: 8px;
-}
-
-.curation-column p {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-
-/* 11. PAGE 3: 아카이브 북 (ARCHIVE BOOK) */
-.archive-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.archive-entry {
-  background-color: var(--bg-paper);
-  border: 1px solid var(--border-line);
-  padding: 36px;
-  box-shadow: var(--card-shadow);
-}
-
-.entry-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-line);
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-}
-
-.entry-category {
-  font-family: var(--font-serif-title);
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  color: var(--gold-dark);
-}
-
-.entry-date {
-  font-size: 0.8rem;
-  color: var(--text-light);
-}
-
-.entry-title {
-  font-family: var(--font-serif-body);
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.entry-bottom {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-line);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.yt-link {
-  color: var(--gold-dark);
-  text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-
-.btn-delete {
-  background: transparent;
-  border: none;
-  color: #c95151;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  background-color: var(--bg-paper);
-  border: 1px solid var(--border-line);
-  color: var(--text-muted);
-}
+   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+KR:wght@300;400;600;700&display=swap');
+   
+   :root, [data-theme="light"] {
+     --bg-color: #f7f5f0;
+     --bg-paper: #ffffff;
+     --text-main: #191919;
+     --text-muted: #6e6a63;
+     --text-light: #9e9a91;
+     --gold-accent: #c5a880;
+     --gold-dark: #9a7d55;
+     --border-line: #e3decb;
+     --border-dark: #191919;
+     --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+     --input-bg: #fcfbfa;
+   
+     --font-serif-title: 'Cinzel', serif;
+     --font-serif-sub: 'Cormorant Garamond', serif;
+     --font-serif-body: 'Noto Serif KR', serif;
+     --font-sans: 'Pretendard', sans-serif;
+   
+     --transition: all 0.25s ease-in-out;
+   }
+   
+   [data-theme="dark"] {
+     --bg-color: #141416;
+     --bg-paper: #1c1c1f;
+     --text-main: #f7f5f0;
+     --text-muted: #a6a29a;
+     --text-light: #6e6b65;
+     --gold-accent: #c5a880;
+     --gold-dark: #dfc7a5;
+     --border-line: #2e2d2a;
+     --border-dark: #c5a880;
+     --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+     --input-bg: #141416;
+   }
+   
+   * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+   }
+   
+   body {
+     font-family: var(--font-serif-body), var(--font-sans), serif;
+     background-color: var(--bg-color);
+     color: var(--text-main);
+     line-height: 1.8;
+     letter-spacing: -0.01em;
+     min-height: 100vh;
+     transition: background-color 0.3s ease, color 0.3s ease;
+     padding: 40px 20px 80px;
+   }
+   
+   button, input, select, textarea {
+     font-family: inherit;
+     font-size: inherit;
+   }
+   
+   .container {
+     max-width: 900px;
+     margin: 0 auto;
+   }
+   
+   .magazine-header {
+     text-align: center;
+     margin-bottom: 48px;
+     border-bottom: 2px solid var(--border-dark);
+     padding-bottom: 24px;
+   }
+   
+   .header-meta {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     border-bottom: 1px solid var(--border-line);
+     padding-bottom: 12px;
+     margin-bottom: 20px;
+     font-family: var(--font-serif-title);
+     font-size: 0.8rem;
+     letter-spacing: 0.2em;
+     color: var(--text-muted);
+   }
+   
+   .theme-toggle-btn {
+     background: transparent;
+     border: 1px solid var(--border-line);
+     color: var(--text-main);
+     padding: 4px 14px;
+     font-size: 0.75rem;
+     font-family: var(--font-serif-title);
+     letter-spacing: 0.15em;
+     cursor: pointer;
+     transition: var(--transition);
+   }
+   
+   .theme-toggle-btn:hover {
+     background: var(--border-dark);
+     color: var(--bg-paper);
+     border-color: var(--border-dark);
+   }
+   
+   .main-title {
+     font-family: var(--font-serif-title);
+     font-size: 3.5rem;
+     font-weight: 900;
+     letter-spacing: 0.18em;
+     line-height: 1.1;
+     color: var(--text-main);
+     margin-bottom: 12px;
+     text-transform: uppercase;
+   }
+   
+   .sub-title {
+     font-family: var(--font-serif-sub);
+     font-size: 1.15rem;
+     font-style: italic;
+     letter-spacing: 0.08em;
+     color: var(--gold-dark);
+   }
+   
+   .magazine-nav {
+     display: flex;
+     justify-content: center;
+     border-top: 1px solid var(--border-line);
+     border-bottom: 1px solid var(--border-line);
+     margin-bottom: 40px;
+     gap: 32px;
+     padding: 10px 0;
+   }
+   
+   .nav-btn {
+     background: transparent;
+     border: none;
+     font-family: var(--font-serif-title), var(--font-serif-body);
+     font-size: 0.9rem;
+     letter-spacing: 0.15em;
+     color: var(--text-muted);
+     padding: 8px 12px;
+     cursor: pointer;
+     position: relative;
+     transition: var(--transition);
+   }
+   
+   .nav-btn:hover {
+     color: var(--text-main);
+   }
+   
+   .nav-btn.active {
+     color: var(--text-main);
+     font-weight: 700;
+   }
+   
+   .nav-btn.active::after {
+     content: '';
+     position: absolute;
+     bottom: -11px;
+     left: 0;
+     width: 100%;
+     height: 2px;
+     background-color: var(--border-dark);
+   }
+   
+   .tab-content {
+     display: none;
+   }
+   
+   .tab-content.active {
+     display: block;
+     animation: editorialFadeIn 0.4s ease-out;
+   }
+   
+   @keyframes editorialFadeIn {
+     from {
+       opacity: 0;
+       transform: translateY(6px);
+     }
+     to {
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+   
+   .paper-card {
+     background-color: var(--bg-paper);
+     border: 1px solid var(--border-line);
+     outline: 1px solid var(--border-line);
+     outline-offset: -6px;
+     box-shadow: var(--card-shadow);
+     padding: 40px;
+     margin-bottom: 36px;
+     position: relative;
+   }
+   
+   .section-label {
+     font-family: var(--font-serif-title);
+     font-size: 0.75rem;
+     letter-spacing: 0.25em;
+     color: var(--gold-accent);
+     text-transform: uppercase;
+     display: block;
+     margin-bottom: 8px;
+   }
+   
+   .card-heading {
+     font-family: var(--font-serif-body);
+     font-size: 1.5rem;
+     font-weight: 700;
+     margin-bottom: 8px;
+   }
+   
+   .card-intro {
+     font-size: 0.95rem;
+     color: var(--text-muted);
+     margin-bottom: 28px;
+   }
+   
+   .magazine-form {
+     display: flex;
+     flex-direction: column;
+     gap: 24px;
+   }
+   
+   .form-group {
+     display: flex;
+     flex-direction: column;
+     gap: 8px;
+   }
+   
+   .form-group label {
+     font-family: var(--font-serif-title), var(--font-serif-body);
+     font-size: 0.8rem;
+     letter-spacing: 0.1em;
+     color: var(--text-muted);
+   }
+   
+   .select-box, .text-input {
+     background-color: var(--input-bg);
+     border: 1px solid var(--border-line);
+     padding: 14px 18px;
+     font-family: var(--font-serif-body);
+     font-size: 1rem;
+     color: var(--text-main);
+     outline: none;
+     transition: border-color 0.2s ease;
+   }
+   
+   .select-box:focus, .text-input:focus {
+     border-color: var(--gold-accent);
+   }
+   
+   .btn-submit {
+     background-color: var(--border-dark);
+     color: var(--bg-paper);
+     border: 1px solid var(--border-dark);
+     padding: 16px 24px;
+     font-family: var(--font-serif-title), var(--font-serif-body);
+     font-size: 0.95rem;
+     letter-spacing: 0.15em;
+     font-weight: 700;
+     cursor: pointer;
+     transition: var(--transition);
+     margin-top: 8px;
+   }
+   
+   .btn-submit:hover {
+     background-color: var(--gold-accent);
+     border-color: var(--gold-accent);
+     color: #ffffff;
+   }
+   
+   .loading-indicator {
+     display: none;
+     justify-content: center;
+     align-items: center;
+     gap: 8px;
+     margin: 24px 0 10px 0;
+     padding: 20px 0;
+     font-family: var(--font-serif-sub), "Nanum Myeongjo", "Batang", serif;
+     font-size: 0.96rem;
+     font-style: italic;
+     font-weight: 500;
+     letter-spacing: 0.08em;
+     color: var(--gold-dark);
+     animation: editorial-pulse 1.8s ease-in-out infinite;
+   }
+   
+   @keyframes editorial-pulse {
+     0% {
+       opacity: 0.35;
+       transform: translateY(0);
+     }
+     50% {
+       opacity: 1;
+       transform: translateY(-1px);
+       text-shadow: 0 0 8px rgba(184, 150, 107, 0.25);
+     }
+     100% {
+       opacity: 0.35;
+       transform: translateY(0);
+     }
+   }
+   
+   .report-header {
+     border-bottom: 1px solid var(--border-line);
+     padding-bottom: 20px;
+     margin-bottom: 24px;
+   }
+   
+   .report-title {
+     font-family: var(--font-serif-body);
+     font-size: 1.8rem;
+     font-weight: 700;
+     color: var(--text-main);
+   }
+   
+   .markdown-body {
+     font-family: var(--font-serif-body);
+     font-size: 1.05rem;
+     line-height: 2;
+     color: var(--text-main);
+   }
+   
+   .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+     font-family: var(--font-serif-body);
+     color: var(--gold-dark);
+     margin-top: 28px;
+     margin-bottom: 10px;
+     border-left: 3px solid var(--gold-accent);
+     padding-left: 12px;
+   }
+   
+   .markdown-body strong {
+     color: var(--gold-dark);
+     font-weight: 700;
+   }
+   
+   .markdown-body li {
+     margin-left: 24px;
+     margin-bottom: 6px;
+   }
+   
+   .report-footer {
+     margin-top: 32px;
+     padding-top: 20px;
+     border-top: 1px solid var(--border-line);
+     display: flex;
+     justify-content: flex-end;
+   }
+   
+   .curation-banner {
+     border: 1px solid var(--border-dark);
+     padding: 36px;
+     background-color: var(--bg-paper);
+     margin-bottom: 30px;
+   }
+   
+   .curation-banner h3 {
+     font-family: var(--font-serif-title);
+     font-size: 1.6rem;
+     letter-spacing: 0.15em;
+     margin-bottom: 8px;
+   }
+   
+   .tag-list {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 10px;
+     margin-top: 20px;
+   }
+   
+   .quick-tag {
+     background: transparent;
+     border: 1px solid var(--border-line);
+     color: var(--text-main);
+     padding: 6px 16px;
+     font-family: var(--font-serif-body);
+     font-size: 0.85rem;
+     cursor: pointer;
+     transition: var(--transition);
+   }
+   
+   .quick-tag:hover {
+     border-color: var(--gold-accent);
+     color: var(--gold-dark);
+   }
+   
+   .curation-grid {
+     display: flex;
+     flex-direction: column;
+     gap: 16px;
+   }
+   
+   .curation-column {
+     background: var(--bg-paper);
+     border: 1px solid var(--border-line);
+     padding: 28px;
+     transition: var(--transition);
+   }
+   
+   .curation-column:hover {
+     border-color: var(--gold-accent);
+   }
+   
+   .curation-column h4 {
+     font-family: var(--font-serif-body);
+     font-size: 1.15rem;
+     color: var(--gold-dark);
+     margin-bottom: 8px;
+   }
+   
+   .curation-column p {
+     font-size: 0.92rem;
+     color: var(--text-muted);
+     line-height: 1.7;
+   }
+   
+   .archive-stack {
+     display: flex;
+     flex-direction: column;
+     gap: 24px;
+   }
+   
+   .archive-entry {
+     background-color: var(--bg-paper);
+     border: 1px solid var(--border-line);
+     padding: 36px;
+     box-shadow: var(--card-shadow);
+   }
+   
+   .entry-top {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     border-bottom: 1px solid var(--border-line);
+     padding-bottom: 12px;
+     margin-bottom: 16px;
+   }
+   
+   .entry-category {
+     font-family: var(--font-serif-title);
+     font-size: 0.8rem;
+     letter-spacing: 0.15em;
+     color: var(--gold-dark);
+   }
+   
+   .entry-date {
+     font-size: 0.8rem;
+     color: var(--text-light);
+   }
+   
+   .entry-title {
+     font-family: var(--font-serif-body);
+     font-size: 1.4rem;
+     font-weight: 700;
+     margin-bottom: 16px;
+   }
+   
+   .entry-bottom {
+     margin-top: 24px;
+     padding-top: 16px;
+     border-top: 1px solid var(--border-line);
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+   }
+   
+   .yt-link {
+     color: var(--gold-dark);
+     text-decoration: none;
+     font-size: 0.88rem;
+     font-weight: 600;
+   }
+   
+   .btn-delete {
+     background: transparent;
+     border: none;
+     color: #c95151;
+     font-size: 0.85rem;
+     cursor: pointer;
+   }
+   
+   .empty-state {
+     text-align: center;
+     padding: 60px 20px;
+     background-color: var(--bg-paper);
+     border: 1px solid var(--border-line);
+     color: var(--text-muted);
+   }
+   
+   .markdown-body p:first-of-type::first-letter {
+     font-family: var(--font-serif-title);
+     font-size: 3.2rem;
+     float: left;
+     line-height: 0.85;
+     margin-right: 12px;
+     margin-top: 4px;
+     color: var(--gold-dark);
+     font-weight: 700;
+   }
+   
+   .magazine-badge {
+     display: inline-flex;
+     align-items: center;
+     gap: 12px;
+     border: 1px solid var(--border-line);
+     padding: 6px 14px;
+     font-family: var(--font-serif-title);
+     font-size: 0.72rem;
+     letter-spacing: 0.2em;
+     color: var(--gold-dark);
+     text-transform: uppercase;
+   }
+   
+   .fake-barcode {
+     display: inline-block;
+     width: 54px;
+     height: 18px;
+     background: repeating-linear-gradient(
+       90deg,
+       var(--text-main) 0px,
+       var(--text-main) 2px,
+       transparent 2px,
+       transparent 4px,
+       var(--text-main) 4px,
+       var(--text-main) 7px,
+       transparent 7px,
+       transparent 8px
+     );
+     opacity: 0.75;
+   }
+   
+   .archive-stamp {
+     position: absolute;
+     top: 24px;
+     right: 24px;
+     width: 64px;
+     height: 64px;
+     border: 2px dashed var(--gold-accent);
+     border-radius: 50%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     color: var(--gold-accent);
+     font-family: var(--font-serif-title);
+     font-size: 0.55rem;
+     letter-spacing: 0.1em;
+     transform: rotate(-12deg);
+     opacity: 0.6;
+     pointer-events: none;
+   }
+   
+   .editor-signature {
+     margin-top: 24px;
+     padding-top: 14px;
+     border-top: 1px dashed var(--border-line);
+     display: flex;
+     justify-content: flex-end;
+     align-items: center;
+     gap: 10px;
+   }
+   
+   .signature-text {
+     font-family: var(--font-serif-sub);
+     font-style: italic;
+     font-size: 1.15rem;
+     color: var(--gold-dark);
+     letter-spacing: 0.05em;
+   }
+   
+   .signature-seal {
+     font-family: var(--font-serif-title);
+     font-size: 0.65rem;
+     border: 1px solid var(--gold-accent);
+     color: var(--gold-dark);
+     padding: 2px 6px;
+     letter-spacing: 0.1em;
+     opacity: 0.8;
+   }
+   
+   .paper-card::before,
+   .paper-card::after {
+     content: '';
+     position: absolute;
+     width: 14px;
+     height: 14px;
+     pointer-events: none;
+   }
+   
+   .paper-card::before {
+     top: 8px;
+     left: 8px;
+     border-top: 1.5px solid var(--gold-accent);
+     border-left: 1.5px solid var(--gold-accent);
+   }
+   
+   .paper-card::after {
+     bottom: 8px;
+     right: 8px;
+     border-bottom: 1.5px solid var(--gold-accent);
+     border-right: 1.5px solid var(--gold-accent);
+   }
+   
+   .magazine-side-index {
+     position: fixed;
+     top: 50%;
+     transform: translateY(-50%) rotate(-90deg);
+     font-family: var(--font-serif-title);
+     font-size: 0.68rem;
+     letter-spacing: 0.3em;
+     color: var(--text-light);
+     opacity: 0.45;
+     pointer-events: none;
+     z-index: 10;
+     display: flex;
+     align-items: center;
+     gap: 16px;
+   }
+   
+   .side-left {
+     left: -45px;
+   }
+   
+   .side-right {
+     right: -45px;
+     transform: translateY(-50%) rotate(90deg);
+   }
+   
+   @media (max-width: 1100px) {
+     .magazine-side-index {
+       display: none;
+     }
+   }

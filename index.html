@@ -7,11 +7,18 @@
   <link rel="stylesheet" href="public/css/style.css" />
 </head>
 <body>
+  <!-- 좌우 매거진 제본 가이드 텍스트 -->
+  <div class="magazine-side-index side-left">◆ BIAS ARCHIVE · VOL. 2026</div>
+  <div id="page-side-label" class="magazine-side-index side-right">PAGE 01 · CRITIC EDITION ◆</div>
+
   <div class="container">
     <!-- 매거진 상단 헤더 -->
     <header class="magazine-header">
       <div class="header-meta">
-        <span>ISSUE NO. 01 / EDITORIAL ARCHIVE</span>
+        <div class="magazine-badge">
+          <span class="fake-barcode"></span>
+          <span>ISSN 2026-ARCHIVE</span>
+        </div>
         <button id="theme-toggle-btn" class="theme-toggle-btn">☀️ LIGHT EDITION</button>
       </div>
       <h1 class="main-title">BIAS ARCHIVE</h1>
@@ -30,6 +37,7 @@
     <!-- PAGE 1: 평론 의뢰 (분석실) -->
     <main id="chat-section" class="tab-content active">
       <div class="paper-card">
+        <div class="archive-stamp">OFFICIAL<br>ARCHIVE</div>
         <span class="section-label">Editorial Request</span>
         <h2 class="card-heading">서사 분석 및 평론 의뢰</h2>
         <p class="card-intro">아이돌의 무대 미학, 배우의 필모그래피, 작품의 숨겨진 서사를 전문 평론 형식으로 기록합니다.</p>
@@ -71,6 +79,13 @@
           <h2 id="result-target-title" class="report-title"></h2>
         </div>
         <div id="result-text" class="markdown-body"></div>
+        
+        <!-- 에디터 서명란 -->
+        <div class="editor-signature">
+          <span class="signature-text">Editor-in-Chief : BIAS</span>
+          <span class="signature-seal">SIGNED</span>
+        </div>
+
         <div class="report-footer">
           <button id="save-archive-btn" class="btn-submit">
             📖 아카이브 북에 이 칼럼 편철하기
@@ -143,6 +158,7 @@
     <!-- PAGE 4: 취향 에세이 노트 -->
     <section id="essay-section" class="tab-content">
       <div class="paper-card">
+        <div class="archive-stamp">ESSAY<br>ENTRY</div>
         <span class="section-label">Personal Essay</span>
         <h2 class="card-heading">에디터 개인 감상 노트</h2>
         <p class="card-intro">최애를 향한 나만의 기록, 장면의 순간적인 여운을 자유롭게 적어 보관하세요.</p>
@@ -164,6 +180,7 @@
     <!-- PAGE 5: 시네마틱 무드보드 (AI 자동 추천) -->
     <section id="moodboard-section" class="tab-content">
       <div class="paper-card">
+        <div class="archive-stamp">AESTHETIC<br>PALETTE</div>
         <span class="section-label">Aesthetic Palette Generator</span>
         <h2 class="card-heading">AI 시네마틱 무드보드 생성</h2>
         <p class="card-intro">대상(인물, 영화, 앨범 등)을 입력하면 AI가 어울리는 컬러 팔레트와 비주얼 무드를 자동 큐레이션합니다.</p>
@@ -203,7 +220,6 @@
     </section>
   </div>
 
-  <!-- 일반 스크립트 로드 방식으로 수정하여 로컬 파일(file://)에서도 정상 작동 -->
   <script src="public/js/app.js"></script>
 </body>
 </html>
