@@ -55,7 +55,7 @@
    }
    
    /* ==============================================================
-      3. API MODULE (백엔드 통신)
+      3. API & YOUTUBE MODULE (백엔드 통신 및 유튜브 링크)
       ============================================================== */
    async function sendChatMessage(message, category = "일반") {
      const response = await fetch("/api/chat", {
@@ -72,16 +72,20 @@
      return await response.json();
    }
    
+   function getYoutubeSearchUrl(query) {
+     return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+   }
+   
    /* ==============================================================
-      4. UI & FORMATTING MODULE (마크다운 파서 및 탭 관리)
+      4. UI & FORMATTING MODULE (마크다운 파서 및 유튜브 버튼 주입)
       ============================================================== */
    function formatMarkdown(text) {
      if (!text) return "";
    
      let parsed = text;
    
-     // 1. [콘텐츠 추천 항목 유튜브 버튼 부착 및 제목/설명 스타일 분리]
-     parsed = parsed.replace(/^[ \t]*(?:[•\-\*]?\s*)?(?:[\p{Emoji}\u2600-\u27BF]\s*)?((?:\[(?:Music Video|Live Stage|Movie|Drama|YouTube|유튜브|드라마|영화|채널|OST)\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
+     // [최종 개선된 유튜브 버튼 주입 정규식]: 번호(①, ② 등), 대괄호([Music Video], [Album] 등)를 완벽하게 감지
+     parsed = parsed.replace(/^[ \t]*(?:[①-⑨0-9]+\.?)?\s*(?:[•\-\*]?\s*)?((?:\[[^\]]+\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
        if (/연관\s*콘텐츠|추천\s*콘텐츠|분석\s*리포트|영업\s*한마디/i.test(lineContent)) {
          return match;
        }
@@ -96,20 +100,19 @@
          keyword = bracketMatch[1];
        }
    
-       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").replace(/[🎬🎤📱💻📦]/g, "").trim();
-       const ytUrl = typeof getYoutubeSearchUrl === "function"
-         ? getYoutubeSearchUrl(cleanKeyword)
-         : `https://www.youtube.com/results?search_query=${encodeURIComponent(cleanKeyword)}`;
+       // 대괄호 및 특수문자 제거 후 순수 검색 키워드 추출
+       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").replace(/[🎬🎤📱💻📦①②③④⑤⑥⑦⑧⑨]/g, "").trim();
+       const ytUrl = getYoutubeSearchUrl(cleanKeyword);
    
        return `<div class="content-recommend-item">
                  <div>
-                   <span class="recommend-main-title">${lineContent.trim()}</span>
+                   <span class="recommend-main-title">${match.trim()}</span>
                  </div>
                  <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">▶ YouTube 영상 보기</a>
                </div>`;
      });
    
-     // 2. 일반 마크다운 포맷팅 적용
+     // 일반 마크다운 포맷팅 적용
      let parsedMarkdown = parsed
        .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
        .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
@@ -122,7 +125,7 @@
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>');
    
-     // 3. 소제목(✦) 정돈 및 일반 본문 처리
+     // 소제목(✦) 정돈 및 일반 본문 처리
      let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]?\s*(.+)$/gm, (match, content) => {
        if (content.includes('content-recommend-item') || content.includes('YouTube 영상 보기')) {
          return match;
@@ -133,7 +136,7 @@
        return `<p class="editorial-text">${content}</p>`;
      });
    
-     // 4. 줄바꿈 정리
+     // 줄바꿈 정리
      finalParsed = finalParsed
        .replace(/\n{2,}/g, '\n')
        .replace(/\n/g, '<br>');
