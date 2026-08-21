@@ -1192,16 +1192,17 @@
   }
 
 /* ==============================================================
-   매거진 인덱스 5개 박스 탭 (글자 크기 대폭 확대 및 박스 균등 분할)
+   매거진 인덱스 5개 박스 탭 (박스 맞춤 글자 크기 최적화)
    ============================================================== */
    html body .magazine-nav {
     width: 100% !important;
-    border-top: 2px solid #1a1a1a !important;
+    border-top: 1.5px solid #1a1a1a !important;
     border-bottom: none !important;
-    margin: 25px 0 !important;
-    padding: 16px 0 0 0 !important;
+    margin: 20px 0 !important;
+    padding: 14px 0 0 0 !important;
     box-sizing: border-box !important;
     display: block !important;
+    overflow: hidden !important; /* 가로 스크롤바 방지 */
   }
   
   html body .magazine-nav .nav-container {
@@ -1210,11 +1211,11 @@
     justify-content: space-between !important;
     align-items: stretch !important;
     width: 100% !important;
-    gap: 12px !important;
+    gap: 8px !important;
     box-sizing: border-box !important;
   }
   
-  /* 5개 박스 기본 테두리 및 크기 */
+  /* 5개 박스 균등 분할 */
   html body .magazine-nav .nav-btn {
     display: flex !important;
     flex-direction: column !important;
@@ -1222,10 +1223,10 @@
     justify-content: center !important;
     text-align: center !important;
     flex: 1 1 0 !important;
-    padding: 16px 8px !important;
-    min-height: 95px !important;
+    padding: 10px 4px !important;
+    min-height: 74px !important;
     background-color: #f7f5f0 !important;
-    border: 1px solid #d4cebe !important; /* 5개 모두 기본 테두리 */
+    border: 1px solid #d4cebe !important;
     cursor: pointer !important;
     box-sizing: border-box !important;
     transition: all 0.2s ease !important;
@@ -1233,43 +1234,43 @@
   
   html body .magazine-nav .nav-btn:hover {
     background-color: #ede7d8 !important;
-    border-color: #888 !important;
+    border-color: #999 !important;
   }
   
   html body .magazine-nav .nav-btn.active {
-    border: 2px solid #1a1a1a !important;
+    border: 1.5px solid #1a1a1a !important;
     background-color: #e5ded0 !important;
   }
   
-  /* 1. 상단 번호 (01, 02...) */
+  /* 1. 번호 (01, 02...) */
   html body .magazine-nav .nav-btn .nav-num {
     font-family: var(--font-serif-title, serif) !important;
-    font-size: 1.15rem !important; /* 대폭 확대 */
-    font-weight: 700 !important;
-    color: #555 !important;
-    margin-bottom: 4px !important;
-    line-height: 1.2 !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    color: #666 !important;
+    margin-bottom: 2px !important;
+    line-height: 1.1 !important;
   }
   
-  /* 2. 메인 영문 타이틀 (CRITIC, SELECTION...) */
+  /* 2. 영문 타이틀 (ARCHIVE BOOK 등이 박스를 벗어나지 않는 최적 크기) */
   html body .magazine-nav .nav-btn .nav-title {
     font-family: var(--font-serif-title, serif) !important;
-    font-size: 1.4rem !important; /* 시원하게 대폭 확대 */
-    font-weight: 900 !important;
+    font-size: 0.92rem !important;
+    font-weight: 800 !important;
     color: #1a1a1a !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.3px !important;
     white-space: nowrap !important;
     line-height: 1.2 !important;
   }
   
-  /* 3. 하단 한글 설명 ((평론 의뢰), (추천 픽)...) */
+  /* 3. 하단 한글 설명 */
   html body .magazine-nav .nav-btn .nav-desc {
-    font-size: 1rem !important; /* 대폭 확대 */
+    font-size: 0.75rem !important;
     font-weight: 500 !important;
-    color: #333 !important;
-    margin-top: 5px !important;
+    color: #444 !important;
+    margin-top: 2px !important;
     white-space: nowrap !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important;
   }
   
   /* 모바일 화면 (768px 이하) */
@@ -1280,15 +1281,15 @@
     }
     html body .magazine-nav .nav-container {
       width: max-content !important;
-      gap: 8px !important;
+      gap: 6px !important;
     }
     html body .magazine-nav .nav-btn {
       flex: 0 0 auto !important;
-      width: 110px !important;
-      min-height: 85px !important;
-      padding: 12px 6px !important;
+      width: 90px !important;
+      min-height: 68px !important;
+      padding: 8px 4px !important;
     }
-    html body .magazine-nav .nav-btn .nav-num { font-size: 0.95rem !important; }
-    html body .magazine-nav .nav-btn .nav-title { font-size: 1.1rem !important; }
-    html body .magazine-nav .nav-btn .nav-desc { font-size: 0.85rem !important; }
+    html body .magazine-nav .nav-btn .nav-num { font-size: 0.8rem !important; }
+    html body .magazine-nav .nav-btn .nav-title { font-size: 0.85rem !important; }
+    html body .magazine-nav .nav-btn .nav-desc { font-size: 0.7rem !important; }
   }
