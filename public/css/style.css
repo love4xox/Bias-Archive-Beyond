@@ -923,25 +923,20 @@
   }
 
 /* ==============================================================
-   네비게이션 탭 메뉴 (PC & 모바일 완벽 가로 정렬)
+   네비게이션 탭 메뉴 (PC & 모바일 스타일 완전 분리)
    ============================================================== */
    .magazine-nav {
     width: 100%;
     border-top: 1px solid var(--border-line);
     border-bottom: 1px solid var(--border-line);
     margin: 20px 0;
-    padding: 4px 0;
     box-sizing: border-box;
   }
   
-  /* 기본(PC): 5개 균등 가로 분할 */
   .nav-container {
     display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
     align-items: stretch !important;
-    width: 100% !important;
-    gap: 8px;
+    box-sizing: border-box;
   }
   
   .nav-btn {
@@ -950,68 +945,90 @@
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
-    flex: 1 1 0 !important;
-    padding: 8px 4px !important;
     line-height: 1.2 !important;
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     cursor: pointer;
     box-sizing: border-box;
   }
   
   .nav-btn .nav-num {
-    font-size: 0.8rem;
     margin-bottom: 2px;
     opacity: 0.7;
   }
   
   .nav-btn .nav-title {
     font-family: var(--font-serif-title, serif);
-    font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    white-space: nowrap;
   }
   
   .nav-btn .nav-desc {
-    font-size: 0.75rem;
     margin-top: 2px;
     opacity: 0.8;
-    white-space: nowrap;
   }
   
-  /* 모바일 화면 (768px 이하): 가로 스크롤 허용 */
-  @media (max-width: 768px) {
+  
+  /* ==========================================
+     (1) PC 전용 스타일 (769px 이상)
+     - 5개 균등 가로 분할 및 간격
+     ========================================== */
+  @media (min-width: 769px) {
     .magazine-nav {
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      -webkit-overflow-scrolling: touch !important;
-      white-space: nowrap !important;
-      padding: 6px 8px !important;
+      padding: 8px 0 !important;
     }
   
     .nav-container {
-      width: max-content !important;
-      justify-content: flex-start !important;
-      gap: 6px !important;
+      flex-direction: row !important;
+      justify-content: space-between !important; /* 균등 분할 */
+      width: 100% !important;
+      gap: 8px; /* 버튼 간격 */
     }
   
     .nav-btn {
-      flex: 0 0 auto !important;
-      width: 78px !important;
+      flex: 1 1 0 !important; /* 공간을 동일하게 차지 */
+      padding: 8px 4px !important;
+    }
+  
+    /* PC 전용 폰트 크기 */
+    .nav-btn .nav-num { font-size: 0.8rem; }
+    .nav-btn .nav-title { font-size: 0.9rem; white-space: nowrap; }
+    .nav-btn .nav-desc { font-size: 0.75rem; white-space: nowrap; }
+  }
+  
+  
+  /* ==========================================
+     (2) 모바일 전용 스타일 (768px 이하)
+     - 가로 스크롤 활성화 및 버튼 크기 고정
+     ========================================== */
+  @media (max-width: 768px) {
+    .magazine-nav {
+      padding: 6px 8px !important;
+      overflow-x: auto !important; /* 가로 스크롤 */
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch !important; /* 부드러운 스크롤 */
+      white-space: nowrap !important; /* 줄바꿈 방지 */
+    }
+  
+    .nav-container {
+      width: max-content !important; /* 내용에 맞춰 너비 확장 */
+      justify-content: flex-start !important; /* 왼쪽부터 정렬 */
+      gap: 6px !important; /* 버튼 간격 축소 */
+    }
+  
+    .nav-btn {
+      flex: 0 0 auto !important; /* 크기 고정 (중요) */
+      width: 78px !important; /* 고정된 너비 */
       min-width: 78px !important;
       padding: 6px 2px !important;
     }
   
-    .nav-btn .nav-num {
-      font-size: 0.72rem !important;
-    }
+    /* 모바일 전용 폰트 크기 및 white-space */
+    .nav-btn .nav-num { font-size: 0.72rem !important; }
+    .nav-btn .nav-title { font-size: 0.78rem !important; white-space: nowrap; }
+    .nav-btn .nav-desc { font-size: 0.65rem !important; white-space: nowrap; }
   
-    .nav-btn .nav-title {
-      font-size: 0.78rem !important;
-    }
-  
-    .nav-btn .nav-desc {
-      font-size: 0.65rem !important;
-    }
+    /* 스크롤바 스타일링 (선택 사항) */
+    .magazine-nav::-webkit-scrollbar { height: 3px; }
+    .magazine-nav::-webkit-scrollbar-thumb { background-color: var(--border-line); border-radius: 3px; }
   }
