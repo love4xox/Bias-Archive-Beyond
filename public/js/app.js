@@ -81,7 +81,7 @@
      let parsed = text;
    
      // 1. [콘텐츠 추천 항목 유튜브 버튼 부착 및 제목/설명 스타일 분리]
-     parsed = parsed.replace(/^[ \t]*(?:[•\-\*]\s*)?((?:\[(?:Music Video|Movie|Drama|YouTube|유튜브|드라마|영화|채널|OST)\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
+     parsed = parsed.replace(/^[ \t]*(?:[•\-\*]?\s*)?(?:[\p{Emoji}\u2600-\u27BF]\s*)?((?:\[(?:Music Video|Live Stage|Movie|Drama|YouTube|유튜브|드라마|영화|채널|OST)\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
        if (/연관\s*콘텐츠|추천\s*콘텐츠|분석\s*리포트|영업\s*한마디/i.test(lineContent)) {
          return match;
        }
@@ -96,7 +96,7 @@
          keyword = bracketMatch[1];
        }
    
-       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").trim();
+       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").replace(/[🎬🎤📱💻📦]/g, "").trim();
        const ytUrl = typeof getYoutubeSearchUrl === "function"
          ? getYoutubeSearchUrl(cleanKeyword)
          : `https://www.youtube.com/results?search_query=${encodeURIComponent(cleanKeyword)}`;
@@ -123,7 +123,7 @@
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>');
    
      // 3. 소제목(✦) 정돈 및 일반 본문 처리
-     let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]\s*(.+)$/gm, (match, content) => {
+     let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]?\s*(.+)$/gm, (match, content) => {
        if (content.includes('content-recommend-item') || content.includes('YouTube 영상 보기')) {
          return match;
        }
@@ -155,7 +155,6 @@
      const targetBtn = document.querySelector(`[data-tab="${tabName}"]`);
      if (targetBtn) targetBtn.classList.add("active");
    
-     // 탭별 우측 페이지 인덱스 라벨 동적 변경
      const sideLabel = document.getElementById("page-side-label");
      if (sideLabel) {
        const tabTitles = {
@@ -234,13 +233,11 @@
       5. EVENT INITIALIZATION
       ============================================================== */
    document.addEventListener("DOMContentLoaded", () => {
-     // 테마 초기화
      initTheme();
    
      const themeToggleBtn = document.getElementById("theme-toggle-btn");
      const navBtns = document.querySelectorAll(".nav-btn");
    
-     // 1번 탭 (평론 의뢰)
      const analyzeForm = document.getElementById("analyze-form");
      const inputMessage = document.getElementById("input-message");
      const categorySelect = document.getElementById("category-select");
@@ -250,15 +247,12 @@
      const saveArchiveBtn = document.getElementById("save-archive-btn");
      const loadingSpinner = document.getElementById("loading-spinner");
    
-     // 2번 탭 (AI 실시간 큐레이션)
      const refreshCurationBtn = document.getElementById("refresh-curation-btn");
      const curationCardList = document.getElementById("curation-card-list");
      const curationLoading = document.getElementById("curation-loading");
    
-     // 4번 탭 (에세이)
      const essayForm = document.getElementById("essay-form");
    
-     // 5번 탭 (AI 무드보드)
      const moodForm = document.getElementById("moodboard-form");
      const moodInput = document.getElementById("mood-keyword");
      const moodLoading = document.getElementById("mood-loading");
@@ -266,7 +260,6 @@
    
      let currentResult = null;
    
-     // 태그 클릭 시 1번 탭으로 이동 후 자동 입력
      function bindQuickTagEvents() {
        document.querySelectorAll(".quick-tag").forEach((tag) => {
          tag.onclick = () => {
@@ -281,16 +274,12 @@
        });
      }
    
-     // --- 이벤트 바인딩 ---
-   
-     // 1. 테마 토글 버튼
      if (themeToggleBtn) {
        themeToggleBtn.addEventListener("click", () => {
          toggleTheme();
        });
      }
    
-     // 2. 5개 탭 전환 버튼
      navBtns.forEach((btn) => {
        btn.addEventListener("click", (e) => {
          e.preventDefault();
@@ -299,7 +288,6 @@
        });
      });
    
-     // 3. 1번 탭: 평론 발간 의뢰 (분석)
      if (analyzeForm) {
        analyzeForm.addEventListener("submit", async (e) => {
          e.preventDefault();
@@ -342,7 +330,6 @@
        });
      }
    
-     // 4. 아카이브 북 편철(저장)
      if (saveArchiveBtn) {
        saveArchiveBtn.addEventListener("click", () => {
          if (!currentResult) return;
@@ -352,7 +339,6 @@
        });
      }
    
-     // 5. 2번 탭: AI 실시간 큐레이션 새로고침
      if (refreshCurationBtn) {
        refreshCurationBtn.addEventListener("click", async () => {
          try {
@@ -387,7 +373,6 @@
        });
      }
    
-     // 6. 4번 탭: 개인 에세이 등록
      if (essayForm) {
        essayForm.addEventListener("submit", (e) => {
          e.preventDefault();
@@ -409,7 +394,6 @@
        });
      }
    
-     // 7. 5번 탭: AI 시네마틱 무드보드 자동 생성
      if (moodForm) {
        moodForm.addEventListener("submit", async (e) => {
          e.preventDefault();
@@ -443,6 +427,5 @@
        });
      }
    
-     // 초기 큐레이션 칩 이벤트 등록
      bindQuickTagEvents();
    });
