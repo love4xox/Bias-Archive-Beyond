@@ -869,3 +869,24 @@
     background: var(--gold-accent);
     color: #ffffff;
   }
+
+  /* ==============================================================
+   소제목과 본문 굵기 및 간격 분리 (색상은 기존 유지)
+   ============================================================== */
+
+/* 소제목 (진하고 굵게 강조) */
+.markdown-body h3,
+.markdown-body .editorial-h3,
+.markdown-body .editorial-point {
+  font-weight: 700;
+  margin-top: 14px !important;
+  margin-bottom: 4px !important;
+}
+
+/* 본문 (일반 굵기, 편안한 간격) */
+.markdown-body p,
+.markdown-body .editorial-text {
+  font-weight: 400;
+  margin-top: 2px !important;
+  margin-bottom: 10px !important;
+}
