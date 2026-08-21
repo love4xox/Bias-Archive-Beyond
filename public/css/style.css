@@ -756,3 +756,60 @@
      background: var(--gold-accent);
      color: #ffffff;
    }
+
+   /* ==============================================================
+   에디토리얼 지면 여백 다이어트 (컴팩트 뷰)
+   ============================================================== */
+
+/* 전체 줄간격 정돈 */
+.markdown-body {
+  line-height: 1.7;
+}
+
+/* 제목/헤딩 상하 여백 대폭 축소 */
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body .editorial-h2,
+.markdown-body .editorial-h3,
+.markdown-body .editorial-h4 {
+  margin-top: 16px !important;
+  margin-bottom: 6px !important;
+  padding-left: 8px;
+  line-height: 1.4;
+}
+
+/* 소제목(✦ 체크포인트, 추천이유) 여백 축소 */
+.markdown-body .editorial-point {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold-dark);
+  margin-top: 10px !important;
+  margin-bottom: 2px !important;
+  line-height: 1.4;
+}
+
+/* 일반 본문 문단 여백 축소 */
+.markdown-body .editorial-text,
+.markdown-body p {
+  margin-top: 2px !important;
+  margin-bottom: 8px !important;
+}
+
+/* 문단 사이 빈 공간 높이 축소 (기존 16px -> 6px) */
+.markdown-body .paragraph-gap {
+  height: 6px;
+}
+
+/* 콘텐츠 추천 박스 상하 여백 축소 */
+.markdown-body .content-recommend-item {
+  margin-top: 14px !important;
+  margin-bottom: 6px !important;
+  padding: 8px 14px;
+}
+
+/* 인용구 여백 축소 */
+.markdown-body blockquote {
+  margin: 10px 0 !important;
+  padding: 10px 14px;
+}
