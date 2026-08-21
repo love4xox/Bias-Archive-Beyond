@@ -879,7 +879,7 @@
 .markdown-body .editorial-h3,
 .markdown-body .editorial-point {
   font-weight: 700;
-  margin-top: 14px !important;
+  margin-top: 8px !important;
   margin-bottom: 2px !important;
 }
 
@@ -888,5 +888,5 @@
 .markdown-body .editorial-text {
   font-weight: 400;
   margin-top: 0px !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 4px !important;
 }
