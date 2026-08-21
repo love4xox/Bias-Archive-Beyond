@@ -1,0 +1,358 @@
+/* public/css/components.css */
+
+/* 1. 테마 토글 버튼 (에디토리얼 메타 뱃지) */
+.theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--border-line);
+    color: var(--text-main);
+    padding: 5px 14px;
+    font-size: 0.75rem;
+    font-family: var(--font-serif-title);
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .theme-toggle-btn:hover {
+    background: var(--border-dark);
+    color: var(--bg-paper);
+    border-color: var(--border-dark);
+  }
+  
+  /* 2. 메인 헤더 타이틀 */
+  .main-title {
+    font-family: var(--font-serif-title);
+    font-size: 3.2rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    line-height: 1.1;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  
+  .sub-title {
+    font-family: var(--font-serif-sub);
+    font-size: 1.15rem;
+    font-style: italic;
+    letter-spacing: 0.08em;
+    color: var(--gold-dark);
+  }
+  
+  /* 3. 탭 네비게이션 버튼 */
+  .nav-btn {
+    background: transparent;
+    border: none;
+    font-family: var(--font-serif-title), var(--font-serif-body);
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    cursor: pointer;
+    position: relative;
+    transition: var(--transition);
+  }
+  
+  .nav-btn:hover {
+    color: var(--text-main);
+  }
+  
+  .nav-btn.active {
+    color: var(--text-main);
+    font-weight: 700;
+  }
+  
+  .nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-dark);
+  }
+  
+  /* 4. 에디토리얼 아티클 페이퍼 카드 */
+  .paper-card {
+    background-color: var(--bg-paper);
+    border: 1px solid var(--border-line);
+    box-shadow: var(--card-shadow);
+    padding: 40px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  
+  .section-label {
+    font-family: var(--font-serif-title);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .card-heading {
+    font-family: var(--font-serif-body);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  
+  .card-intro {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+  
+  /* 5. 폼 입력창 및 제출 버튼 */
+  .magazine-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-group label {
+    font-family: var(--font-serif-title), var(--font-serif-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  
+  .select-box, .text-input {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-line);
+    padding: 14px 18px;
+    font-family: var(--font-serif-body);
+    font-size: 1rem;
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .select-box:focus, .text-input:focus {
+    border-color: var(--gold-accent);
+  }
+  
+  .btn-submit {
+    background-color: var(--border-dark);
+    color: var(--bg-paper);
+    border: 1px solid var(--border-dark);
+    padding: 16px 24px;
+    font-family: var(--font-serif-title), var(--font-serif-body);
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 8px;
+  }
+  
+  .btn-submit:hover {
+    background-color: var(--gold-accent);
+    border-color: var(--gold-accent);
+    color: #ffffff;
+  }
+  
+  /* 로딩 인디케이터 */
+  .loading-indicator {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+    font-family: var(--font-serif-sub), var(--font-serif-body);
+    font-style: italic;
+    color: var(--gold-dark);
+    font-size: 1.1rem;
+  }
+  
+  /* 6. 평론 칼럼 리포트 출력 카드 */
+  .report-header {
+    border-bottom: 1px solid var(--border-line);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .report-title {
+    font-family: var(--font-serif-body);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  
+  .markdown-body {
+    font-family: var(--font-serif-body);
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--text-main);
+  }
+  
+  .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+    font-family: var(--font-serif-body);
+    color: var(--gold-dark);
+    margin-top: 28px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--gold-accent);
+    padding-left: 12px;
+  }
+  
+  .markdown-body strong {
+    color: var(--gold-dark);
+    font-weight: 700;
+  }
+  
+  .markdown-body li {
+    margin-left: 24px;
+    margin-bottom: 6px;
+  }
+  
+  .report-footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-line);
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  /* 7. 큐레이션 (2페이지) 컴포넌트 */
+  .curation-banner {
+    border: 1px solid var(--border-dark);
+    padding: 36px;
+    background-color: var(--bg-paper);
+    margin-bottom: 30px;
+  }
+  
+  .curation-banner h3 {
+    font-family: var(--font-serif-title);
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .quick-tag {
+    background: transparent;
+    border: 1px solid var(--border-line);
+    color: var(--text-main);
+    padding: 6px 16px;
+    font-family: var(--font-serif-body);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .quick-tag:hover {
+    border-color: var(--gold-accent);
+    color: var(--gold-dark);
+  }
+  
+  .curation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  
+  .curation-column {
+    background: var(--bg-paper);
+    border: 1px solid var(--border-line);
+    padding: 24px;
+  }
+  
+  .curation-column h4 {
+    font-family: var(--font-serif-body);
+    font-size: 1.1rem;
+    color: var(--gold-dark);
+    margin-bottom: 10px;
+  }
+  
+  .curation-column p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  
+  /* 8. 아카이브 북 (3페이지) 컴포넌트 */
+  .archive-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .archive-entry {
+    background-color: var(--bg-paper);
+    border: 1px solid var(--border-line);
+    padding: 36px;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-line);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .entry-category {
+    font-family: var(--font-serif-title);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--gold-dark);
+  }
+  
+  .entry-date {
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+  
+  .entry-title {
+    font-family: var(--font-serif-body);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  
+  .entry-bottom {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .yt-link {
+    color: var(--gold-dark);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  
+  .btn-delete {
+    background: transparent;
+    border: none;
+    color: #c95151;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--bg-paper);
+    border: 1px solid var(--border-line);
+    color: var(--text-muted);
+  }

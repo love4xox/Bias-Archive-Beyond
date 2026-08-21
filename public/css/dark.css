@@ -1,0 +1,14 @@
+/* public/css/dark.css */
+[data-theme="dark"] {
+    --bg-color: #141416;
+    --bg-paper: #1c1c1f;
+    --text-main: #f7f5f0;
+    --text-muted: #a6a29a;
+    --text-light: #6e6b65;
+    --gold-accent: #c5a880;
+    --gold-dark: #dfc7a5;
+    --border-line: #2e2d2a;
+    --border-dark: #c5a880;
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+    --input-bg: #141416;
+  }

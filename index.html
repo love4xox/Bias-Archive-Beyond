@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BIAS ARCHIVE : EDITORIAL</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- 매거진 상단 헤더 -->
+    <header class="magazine-header">
+      <div class="header-meta">
+        <span>ISSUE NO. 01 / EDITORIAL ARCHIVE</span>
+        <button id="theme-toggle-btn" class="theme-toggle-btn">☀️ LIGHT EDITION</button>
+      </div>
+      <h1 class="main-title">BIAS ARCHIVE</h1>
+      <p class="sub-title">A Curated Archive of Narratives, Figures & Aesthetics</p>
+    </header>
+
+    <!-- 5개 탭 네비게이션 -->
+    <nav class="magazine-nav">
+      <button class="nav-btn active" data-tab="chat">01. CRITIQUE (평론 의뢰)</button>
+      <button class="nav-btn" data-tab="curation">02. SELECTION (추천 픽)</button>
+      <button class="nav-btn" data-tab="archive">03. ARCHIVE BOOK (아카이브 북)</button>
+      <button class="nav-btn" data-tab="essay">04. ESSAY (에세이 노트)</button>
+      <button class="nav-btn" data-tab="moodboard">05. MOODBOARD (무드보드)</button>
+    </nav>
+
+    <!-- PAGE 1: 평론 의뢰 (분석실) -->
+    <main id="chat-section" class="tab-content active">
+      <div class="paper-card">
+        <span class="section-label">Editorial Request</span>
+        <h2 class="card-heading">서사 분석 및 평론 의뢰</h2>
+        <p class="card-intro">아이돌의 무대 미학, 배우의 필모그래피, 작품의 숨겨진 서사를 전문 평론 형식으로 기록합니다.</p>
+
+        <form id="analyze-form" class="magazine-form">
+          <div class="form-group">
+            <label for="category-select">CATEGORY</label>
+            <select id="category-select" class="select-box">
+              <option value="K-POP / 아티스트">K-POP / 아티스트</option>
+              <option value="배우 / 드라마 / 영화">배우 / 드라마 / 영화</option>
+              <option value="도서 / 웹툰 / 애니메이션">도서 / 웹툰 / 애니메이션</option>
+              <option value="스포츠 / 서브컬처 / 기타">스포츠 / 서브컬처 / 취향</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="input-message">SUBJECT / KEYWORD</label>
+            <input 
+              type="text" 
+              id="input-message" 
+              class="text-input" 
+              placeholder="예: 변우석, 뉴진스, 헤어질 결심, 슬램덩크 등" 
+              required 
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">발간 의뢰하기 (Analyze)</button>
+        </form>
+
+        <div id="loading-spinner" class="loading-indicator">
+          ✦ 에디터가 서사를 분석하고 평론 칼럼을 집필하는 중입니다...
+        </div>
+      </div>
+
+      <!-- 리포트 결과 출력 -->
+      <div id="result-container" class="paper-card" style="display: none;">
+        <div class="report-header">
+          <span class="section-label">CRITIC COLUMN</span>
+          <h2 id="result-target-title" class="report-title"></h2>
+        </div>
+        <div id="result-text" class="markdown-body"></div>
+        <div class="report-footer">
+          <button id="save-archive-btn" class="btn-submit">
+            📖 아카이브 북에 이 칼럼 편철하기
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- PAGE 2: 에디터 픽 (AI 자동 실시간 큐레이션) -->
+    <section id="curation-section" class="tab-content">
+      <div class="curation-banner">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <span class="section-label">CURATED TOPICS</span>
+            <h3>EDITOR'S SELECTION</h3>
+          </div>
+          <button id="refresh-curation-btn" class="btn-submit" style="padding: 8px 16px; font-size: 0.82rem; margin: 0;">
+            🎲 AI 추천 픽 새로고침
+          </button>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px;">
+          AI 에디터가 선정한 실시간 추천 서사 키워드입니다. 키워드를 클릭하면 즉시 평론실로 연결됩니다.
+        </p>
+        
+        <!-- 실시간 추천 태그 목록 -->
+        <div id="dynamic-tag-list" class="tag-list">
+          <button class="quick-tag" data-cat="배우 / 드라마 / 영화" data-value="변우석">#변우석</button>
+          <button class="quick-tag" data-cat="K-POP / 아티스트" data-value="뉴진스">#뉴진스</button>
+          <button class="quick-tag" data-cat="배우 / 드라마 / 영화" data-value="헤어질 결심">#헤어질 결심</button>
+          <button class="quick-tag" data-cat="도서 / 웹툰 / 애니메이션" data-value="슬램덩크">#슬램덩크</button>
+          <button class="quick-tag" data-cat="K-POP / 아티스트" data-value="데이식스">#데이식스</button>
+        </div>
+      </div>
+
+      <!-- AI 추천 큐레이션 칼럼 목록 -->
+      <div id="curation-card-list" class="curation-grid">
+        <div class="curation-column">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h4>01. Filmography & Actor : [변우석]</h4>
+            <span class="section-label" style="margin: 0; font-size: 0.7rem;">Cinema</span>
+          </div>
+          <p>청춘의 찬란함과 이면의 쓸쓸함을 탁월한 시선으로 담아내는 독보적인 캐릭터 빌딩과 서사성.</p>
+        </div>
+        <div class="curation-column">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h4>02. Stage & Performance : [뉴진스]</h4>
+            <span class="section-label" style="margin: 0; font-size: 0.7rem;">K-Pop</span>
+          </div>
+          <p>Y2K의 아련한 질감과 세련된 이지리스닝 사운드가 결합된 시각 미학 및 무대 콘셉트 해설.</p>
+        </div>
+        <div class="curation-column">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h4>03. Literature & Story : [헤어질 결심]</h4>
+            <span class="section-label" style="margin: 0; font-size: 0.7rem;">Narrative</span>
+          </div>
+          <p>파도처럼 밀려왔다 붕괴되는 미결(未決)의 감정선과 미장센이 전하는 시네마틱 여운.</p>
+        </div>
+      </div>
+
+      <div id="curation-loading" class="loading-indicator">
+        ✦ AI 에디터가 트렌드 서사와 새로운 큐레이션 칼럼을 편성 중입니다...
+      </div>
+    </section>
+
+    <!-- PAGE 3: 아카이브 북 -->
+    <section id="archive-section" class="tab-content">
+      <div id="archive-list" class="archive-stack"></div>
+    </section>
+
+    <!-- PAGE 4: 취향 에세이 노트 -->
+    <section id="essay-section" class="tab-content">
+      <div class="paper-card">
+        <span class="section-label">Personal Essay</span>
+        <h2 class="card-heading">에디터 개인 감상 노트</h2>
+        <p class="card-intro">최애를 향한 나만의 기록, 장면의 순간적인 여운을 자유롭게 적어 보관하세요.</p>
+
+        <form id="essay-form" class="magazine-form">
+          <div class="form-group">
+            <label for="essay-title">ESSAY TITLE</label>
+            <input type="text" id="essay-title" class="text-input" placeholder="에세이 제목을 입력하세요 (예: 그 여름 우리가 사랑했던 무대)" required />
+          </div>
+          <div class="form-group">
+            <label for="essay-content">BODY TEXT</label>
+            <textarea id="essay-content" class="text-input" rows="7" placeholder="당신만의 문장으로 자유롭게 서사를 기록하세요..." style="resize: vertical;" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">에세이 아카이브에 등록하기</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAGE 5: 시네마틱 무드보드 (AI 자동 추천) -->
+    <section id="moodboard-section" class="tab-content">
+      <div class="paper-card">
+        <span class="section-label">Aesthetic Palette Generator</span>
+        <h2 class="card-heading">AI 시네마틱 무드보드 생성</h2>
+        <p class="card-intro">대상(인물, 영화, 앨범 등)을 입력하면 AI가 어울리는 컬러 팔레트와 비주얼 무드를 자동 큐레이션합니다.</p>
+
+        <form id="moodboard-form" class="magazine-form">
+          <div class="form-group">
+            <label for="mood-keyword">SUBJECT / KEYWORD</label>
+            <input 
+              type="text" 
+              id="mood-keyword" 
+              class="text-input" 
+              placeholder="예: 변우석, 뉴진스 Ditto, 헤어질 결심, 라라랜드 등" 
+              required 
+            />
+          </div>
+          <button type="submit" class="btn-submit">무드보드 자동 생성 (Generate)</button>
+        </form>
+
+        <div id="mood-loading" class="loading-indicator">
+          ✦ AI가 비주얼 톤앤매너와 컬러 팔레트를 추출하는 중입니다...
+        </div>
+      </div>
+
+      <!-- 생성된 무드보드 출력 영역 -->
+      <div id="moodboard-result" class="curation-grid">
+        <!-- 기본 프리뷰 샘플 -->
+        <div class="curation-column">
+          <h4>🎨 Noir & Film Tone</h4>
+          <p style="margin-bottom: 12px;">클래식 필름 그레인과 차콜 섀도우가 주는 서사적 깊이</p>
+          <div style="display: flex; gap: 8px;">
+            <div style="width: 28px; height: 28px; background: #191919; border: 1px solid var(--border-line);"></div>
+            <div style="width: 28px; height: 28px; background: #383838; border: 1px solid var(--border-line);"></div>
+            <div style="width: 28px; height: 28px; background: #c5a880; border: 1px solid var(--border-line);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 일반 스크립트 로드 방식으로 수정하여 로컬 파일(file://)에서도 정상 작동 -->
+  <script src="public/js/app.js"></script>
+</body>
+</html>
