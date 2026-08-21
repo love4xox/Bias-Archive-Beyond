@@ -1190,3 +1190,100 @@
     .nav-btn .nav-title { font-size: 0.88rem !important; }
     .nav-btn .nav-desc { font-size: 0.72rem !important; }
   }
+
+  /* ==============================================================
+   매거진 인덱스 5개 박스 탭 (가운데 정렬 + 큼직한 글자)
+   ============================================================== */
+.magazine-nav {
+  width: 100% !important;
+  border-top: 1.5px solid #1a1a1a !important;
+  border-bottom: none !important;
+  margin: 25px 0 !important;
+  padding: 16px 0 0 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.nav-container {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  gap: 12px !important;
+  box-sizing: border-box !important;
+}
+
+.nav-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  flex: 1 1 0 !important;
+  padding: 18px 10px !important;
+  min-height: 90px !important;
+  background-color: #f7f5f0 !important;
+  border: 1px solid #d4cebe !important;   /* 5개 탭 모두 박스 테두리 */
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+.nav-btn:hover {
+  border-color: #888 !important;
+  background-color: #ede7d8 !important;
+}
+
+.nav-btn.active {
+  border: 2px solid #1a1a1a !important;
+  background-color: #e5ded0 !important;
+}
+
+/* 폰트 크기 확대 */
+.nav-btn .nav-num {
+  font-family: var(--font-serif-title, serif) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #666 !important;
+  margin-bottom: 4px !important;
+}
+
+.nav-btn .nav-title {
+  font-family: var(--font-serif-title, serif) !important;
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  color: #1a1a1a !important;
+  letter-spacing: 0.8px !important;
+  white-space: nowrap !important;
+}
+
+.nav-btn .nav-desc {
+  font-size: 0.9rem !important;
+  color: #444 !important;
+  margin-top: 4px !important;
+  white-space: nowrap !important;
+}
+
+/* 모바일 화면 대응 */
+@media (max-width: 768px) {
+  .magazine-nav {
+    overflow-x: auto !important;
+    justify-content: flex-start !important;
+  }
+  .nav-container {
+    width: max-content !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+  }
+  .nav-btn {
+    flex: 0 0 auto !important;
+    width: 105px !important;
+    min-height: 80px !important;
+    padding: 12px 6px !important;
+  }
+  .nav-btn .nav-num { font-size: 0.9rem !important; }
+  .nav-btn .nav-title { font-size: 1rem !important; }
+  .nav-btn .nav-desc { font-size: 0.78rem !important; }
+}
