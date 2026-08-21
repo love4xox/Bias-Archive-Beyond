@@ -1032,3 +1032,68 @@
     .magazine-nav::-webkit-scrollbar { height: 3px; }
     .magazine-nav::-webkit-scrollbar-thumb { background-color: var(--border-line); border-radius: 3px; }
   }
+
+  /* ==============================================================
+   네비게이션 겹침 현상 강제 초기화 및 스크롤 고정
+   ============================================================== */
+.magazine-nav {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  white-space: nowrap !important;
+  border-top: 1px solid var(--border-line) !important;
+  border-bottom: 1px solid var(--border-line) !important;
+  padding: 8px 10px !important;
+}
+
+.magazine-nav .nav-container {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  width: max-content !important;
+  position: static !important;
+  gap: 12px !important;
+}
+
+.magazine-nav .nav-btn {
+  position: relative !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 70px !important;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  transform: none !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+.magazine-nav .nav-btn .nav-num {
+  font-size: 0.72rem !important;
+  margin-bottom: 2px !important;
+  display: block !important;
+}
+
+.magazine-nav .nav-btn .nav-title {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  display: block !important;
+}
+
+.magazine-nav .nav-btn .nav-desc {
+  font-size: 0.65rem !important;
+  white-space: nowrap !important;
+  display: block !important;
+  margin-top: 2px !important;
+}
