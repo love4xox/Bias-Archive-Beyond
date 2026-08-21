@@ -73,35 +73,37 @@
    }
    
    /* ==============================================================
-      4. UI & FORMATTING MODULE (marked.js 기반 고도화 파서)
+      4. UI & FORMATTING MODULE (마크다운 파서 및 탭 관리)
       ============================================================== */
    function formatMarkdown(text) {
      if (!text) return "";
    
-     // 1. marked 라이브러리가 로드되어 있는 경우 (권장)
-     if (typeof marked !== "undefined" && marked.parse) {
-       return marked.parse(text);
-     }
-   
-     // 2. Fallback: marked 미로드 시에도 연속 인용구 및 #### 헤딩 완벽 대응
      let parsed = text
-       .replace(/^#### (.*$)/gim, '<h4 style="color:var(--gold-dark); margin-top:20px; font-weight:700;">$1</h4>')
-       .replace(/^### (.*$)/gim, '<h4 style="color:var(--gold-dark); margin-top:20px; font-weight:700;">$1</h4>')
-       .replace(/^## (.*$)/gim, '<h3 style="color:var(--gold-dark); margin-top:24px; border-left:3px solid var(--gold-accent); padding-left:10px;">$1</h3>')
-       .replace(/^# (.*$)/gim, '<h2 style="color:var(--gold-dark); margin-top:28px;">$1</h2>')
-       .replace(/^---$/gm, '<hr class="editorial-divider">')
+       // 1. 헤딩 태그 (####, ###, ##, #) - 줄 앞 공백 허용
+       .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
+       .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
+       .replace(/^\s*##\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
+       .replace(/^\s*#\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
+       // 2. 얇은 구분선 (---)
+       .replace(/^\s*---\s*$/gm, '<hr class="editorial-divider">')
+       // 3. 인용구 (> 문장)
+       .replace(/^\s*>\s*(.+)$/gm, '<blockquote>$1</blockquote>')
+       // 4. 볼드 + 이탤릭 (***텍스트***)
        .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
+       // 5. 볼드 (**텍스트**)
+       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+       // 6. 이탤릭 (*텍스트*)
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+       // 7. 인라인 태그 / 코드 (`#태그`)
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>')
-       .replace(/^[•\-\*]\s*(.+)$/gm, '<li style="margin-left:20px; margin-bottom:6px;">$1</li>')
-       .replace(/\n\n/g, '<br><br>')
-       .replace(/\n/g, '<br/>');
+       // 8. 불릿 리스트 (*, -, •)
+       .replace(/^\s*[•\-\*]\s*(.+)$/gm, '<li>$1</li>')
+       // 9. 불필요한 연속 개행 정리 및 줄바꿈
+       .replace(/\n{3,}/g, '\n\n')
+       .replace(/\n/g, '<br>');
    
-     // 인용구(>) 연속 블록 통합 처리
-     parsed = parsed.replace(/(<blockquote>[\s\S]*?<\/blockquote>)/gi, (match) => {
-       return match.replace(/<\/blockquote><br\/><blockquote>/gi, '<br/>');
-     });
+     // 연속된 blockquote 태그 합치기
+     parsed = parsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*)*<blockquote>/gi, '<br>');
    
      return parsed;
    }

@@ -695,3 +695,34 @@
      font-style: italic;
      color: var(--gold-dark);
    }
+
+   /* 제목 및 문단 여백 최적화 */
+.markdown-body .editorial-h2,
+.markdown-body .editorial-h3,
+.markdown-body .editorial-h4 {
+  color: var(--gold-dark);
+  border-left: 3px solid var(--gold-accent);
+  padding-left: 10px;
+  margin-top: 22px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.markdown-body .editorial-h4 {
+  font-size: 1.15rem;
+}
+
+.markdown-body blockquote {
+  margin: 12px 0;
+  padding: 12px 18px;
+  background: var(--input-bg);
+  border-left: 3px solid var(--gold-accent);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.markdown-body blockquote br {
+  content: "";
+  display: block;
+  margin: 6px 0;
+}
