@@ -612,15 +612,13 @@
      color: var(--text-main);
    }
    
+   /* 드롭캡 거대화 스타일 초기화 (기호 및 텍스트 깨짐 방지) */
    .markdown-body p:first-of-type::first-letter {
-     font-family: var(--font-serif-title);
-     font-size: 3.2rem;
-     float: left;
-     line-height: 0.85;
-     margin-right: 12px;
-     margin-top: 4px;
-     color: var(--gold-dark);
-     font-weight: 700;
+     font-size: inherit !important;
+     float: none !important;
+     line-height: inherit !important;
+     margin: 0 !important;
+     color: inherit !important;
    }
    
    /* 제목 및 소제목 스타일 */
@@ -642,7 +640,7 @@
      font-size: 1.15rem;
    }
    
-   /* 서브 포인트(✦ 소제목) */
+   /* 서브 포인트 (✦ 소제목) */
    .markdown-body .editorial-point {
      font-family: var(--font-serif-body);
      font-size: 1.08rem;

@@ -94,25 +94,25 @@
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
        // 5. 인라인 태그 / 코드 (`#태그`)
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>')
-       // 6. 콘텐츠 추천 번호(①, ②, ③ 또는 1., 2.)가 있을 때 youtube.js 함수로 검색 URL 생성
-       .replace(/^\s*([①②③④⑤\d]+[\.\)]?\s*(?:드라마|영화|유튜브|앨범|도서|웹툰|작품|무대)?\s*<([^>]+)>.*$)/gim, (match, fullLine, keyword) => {
-         // youtube.js의 함수 활용 (미로드 시 fallback URL 생성)
+       // 6. 콘텐츠 추천 항목 감지 (《작품명》, <작품명>, [드라마/영화/유튜브] 등 모든 패턴 대응)
+       .replace(/^\s*([•\-\*]?\s*(?:[①②③④⑤\d]+[\.\)]?\s*)?(?:\[(?:드라마|영화|유튜브|YouTube|예능|도서|웹툰|앨범|무대|작품)[^\]]*\])?\s*[《<]([^》>]+)[》>].*$)/gim, (match, fullLine, keyword) => {
+         const cleanKeyword = keyword.trim();
          const ytUrl = typeof getYoutubeSearchUrl === "function"
-           ? getYoutubeSearchUrl(keyword)
-           : `https://www.youtube.com/results?search_query=${encodeURIComponent(keyword)}`;
+           ? getYoutubeSearchUrl(cleanKeyword)
+           : `https://www.youtube.com/results?search_query=${encodeURIComponent(cleanKeyword)}`;
    
          return `
            <div class="content-recommend-item">
-             <span class="recommend-title">${fullLine}</span>
+             <span class="recommend-title">${fullLine.replace(/^[•\-\*]\s*/, '')}</span>
              <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">
-               ▶ YouTube 영상 탐색
+               ▶ YouTube 영상 보기
              </a>
            </div>
          `;
        })
-       // 7. 소제목형 불릿 포인트 (• 또는 - 뒤에 나오는 소제목을 단정하게 변환)
+       // 7. 일반 소제목형 불릿 포인트 (• 또는 - 뒤에 나오는 텍스트)
        .replace(/^\s*[•\-\*]\s*(.+)$/gm, '<p class="editorial-point">✦ $1</p>')
-       // 8. 과도한 빈 줄(개행) 압축 및 단락 여백 생성
+       // 8. 과도한 빈 줄 정리 및 단락 여백 생성
        .replace(/\n{3,}/g, '\n\n')
        .replace(/\n\n/g, '<div class="paragraph-gap"></div>')
        .replace(/\n/g, '<br>');
