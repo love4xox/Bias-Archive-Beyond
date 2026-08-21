@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- 배경 -->
+  <rect width="1200" height="630" fill="#1a1a1a"/>
+  
+  <!-- 상단 골드 라인 -->
+  <rect x="100" y="120" width="1000" height="2" fill="#c9a76a"/>
+  <!-- 하단 골드 라인 -->
+  <rect x="100" y="510" width="1000" height="2" fill="#c9a76a"/>
+
+  <!-- 바코드 (좌상단) -->
+  <g fill="#f5f3ef">
+    <rect x="100" y="70" width="4" height="30"/>
+    <rect x="107" y="70" width="6" height="30"/>
+    <rect x="116" y="70" width="3" height="30"/>
+    <rect x="122" y="70" width="7" height="30"/>
+    <rect x="132" y="70" width="3" height="30"/>
+    <rect x="138" y="70" width="5" height="30"/>
+  </g>
+  <!-- ISSN 텍스트 -->
+  <text x="160" y="92" font-size="20" font-family="Georgia, serif" 
+        letter-spacing="3" fill="#c9a76a">ISSN 2026-ARCHIVE</text>
+
+  <!-- 메인 타이틀 -->
+  <text x="600" y="310" font-size="110" font-family="Georgia, serif" 
+        font-weight="bold" letter-spacing="8" fill="#f5f3ef"
+        text-anchor="middle">BIAS ARCHIVE</text>
+
+  <!-- 서브 타이틀 -->
+  <text x="600" y="380" font-size="30" font-family="Georgia, serif" 
+        font-style="italic" letter-spacing="2" fill="#c9a76a"
+        text-anchor="middle">A Curated Archive of Narratives, Figures &amp; Aesthetics</text>
+</svg>

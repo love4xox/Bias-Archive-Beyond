@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#1a1a1a"/>
+  <!-- 아이보리 바코드 선들 -->
+  <rect x="22" y="28" width="4" height="44" fill="#f5f3ef"/>
+  <rect x="29" y="28" width="6" height="44" fill="#f5f3ef"/>
+  <rect x="38" y="28" width="3" height="44" fill="#f5f3ef"/>
+  <rect x="44" y="28" width="7" height="44" fill="#f5f3ef"/>
+  <rect x="54" y="28" width="3" height="44" fill="#f5f3ef"/>
+  <rect x="60" y="28" width="5" height="44" fill="#f5f3ef"/>
+  <rect x="68" y="28" width="3" height="44" fill="#f5f3ef"/>
+  <rect x="74" y="28" width="4" height="44" fill="#f5f3ef"/>
+</svg>
