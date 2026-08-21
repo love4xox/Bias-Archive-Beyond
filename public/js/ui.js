@@ -18,7 +18,20 @@ export function switchTab(tabName) {
   const targetBtn = document.querySelector(`[data-tab="${tabName}"]`);
   if (targetBtn) targetBtn.classList.add("active");
 
-  // 3. 아카이브 탭일 때 목록 렌더링
+  // 3. 우측 세로 인덱스 라벨 동기화
+  const sideLabel = document.getElementById("page-side-label");
+  if (sideLabel) {
+    const labels = {
+      chat: "PAGE 01 · CRITIC EDITION ◆",
+      curation: "PAGE 02 · SELECTION ◆",
+      archive: "PAGE 03 · ARCHIVE BOOK ◆",
+      essay: "PAGE 04 · ESSAY NOTE ◆",
+      moodboard: "PAGE 05 · MOODBOARD ◆",
+    };
+    sideLabel.textContent = labels[tabName] || "PAGE 01 · CRITIC EDITION ◆";
+  }
+
+  // 4. 아카이브 탭일 때 목록 렌더링
   if (tabName === "archive") {
     renderArchiveList();
   }
@@ -57,7 +70,7 @@ export function renderArchiveList() {
               <span class="entry-date">${date}</span>
             </div>
             <h3 class="entry-title">${item.title || item.message}</h3>
-            <div class="markdown-body">${formatMarkdown(item.reply)}</div>
+            <div class="markdown-body">${parseMarkdown(item.reply)}</div>
             <div class="entry-bottom">
               <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="yt-link">
                 ▶ 관련 아카이브 영상 탐색
@@ -81,17 +94,35 @@ export function renderArchiveList() {
   });
 }
 
-export function formatMarkdown(text) {
+// 마크다운 문법을 HTML 태그로 정밀 변환해 주는 헬퍼 함수
+export function parseMarkdown(text) {
   if (!text) return "";
   return text
-    .replace(/^### (.*$)/gim, '<h4>$1</h4>')
-    .replace(/^## (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^# (.*$)/gim, '<h2>$1</h2>')
-    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-    .replace(/^\* (.*$)/gim, '<li>$1</li>')
-    .replace(/^\- (.*$)/gim, '<li>$1</li>')
-    .replace(/\n/gim, '<br/>');
+    // 헤딩 (###, ##, #)
+    .replace(/^### (.*$)/gim, "<h4>$1</h4>")
+    .replace(/^## (.*$)/gim, "<h3>$1</h3>")
+    .replace(/^# (.*$)/gim, "<h2>$1</h2>")
+    // 구분선 (---)
+    .replace(/^---$/gm, '<hr class="editorial-divider">')
+    // 인용구 (> 문장)
+    .replace(/^>\s*(.+)$/gm, "<blockquote>$1</blockquote>")
+    // 볼드 + 이탤릭 (***텍스트***)
+    .replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>")
+    // 볼드 (**텍스트**)
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    // 이탤릭 (*텍스트*)
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    // 인라인 태그/코드 (`태그`)
+    .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>')
+    // 불릿 리스트 (* 또는 - 또는 •)
+    .replace(/^[•\-\*]\s*(.+)$/gm, "<li>$1</li>")
+    // 줄바꿈
+    .replace(/\n\n/g, "<br><br>")
+    .replace(/\n/g, "<br>");
 }
+
+// 하위 호환성을 위해 유지
+export const formatMarkdown = parseMarkdown;
 
 export function toggleLoading(show) {
   const spinner = document.getElementById("loading-spinner");
