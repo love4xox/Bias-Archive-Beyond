@@ -923,42 +923,59 @@
   }
 
   /* ==============================================================
-   모바일 반응형 네비게이션 가로 스크롤 완전 해결
+   모바일 탭 메뉴 가로 정렬 및 스크롤 완벽 고정
    ============================================================== */
 @media (max-width: 768px) {
+  .container {
+    overflow-x: hidden;
+  }
+
   .magazine-nav {
     display: block !important;
     width: 100% !important;
     overflow-x: auto !important;
+    overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     white-space: nowrap !important;
-    padding-bottom: 6px !important;
-    scrollbar-width: thin;
+    padding: 6px 10px !important;
+    box-sizing: border-box !important;
   }
 
   .magazine-nav .nav-container {
     display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
     width: max-content !important;
-    gap: 8px !important;
+    gap: 6px !important;
   }
 
-  .nav-btn {
-    display: inline-flex !important;
+  .magazine-nav .nav-btn {
+    display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    text-align: center !important;
+    justify-content: center !important;
     flex: 0 0 auto !important;
-    width: 80px !important;
-    min-width: 80px !important;
+    width: 78px !important;
+    min-width: 78px !important;
     padding: 6px 2px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
   }
 
-  .nav-btn .nav-title {
-    font-size: 0.8rem !important;
+  .magazine-nav .nav-btn .nav-num {
+    font-size: 0.72rem !important;
+    margin-bottom: 2px !important;
   }
 
-  .nav-btn .nav-num,
-  .nav-btn .nav-desc {
-    font-size: 0.68rem !important;
+  .magazine-nav .nav-btn .nav-title {
+    font-size: 0.78rem !important;
+    white-space: nowrap !important;
+  }
+
+  .magazine-nav .nav-btn .nav-desc {
+    font-size: 0.65rem !important;
+    white-space: nowrap !important;
+    margin-top: 2px !important;
   }
 }
