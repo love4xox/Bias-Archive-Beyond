@@ -813,3 +813,59 @@
   margin: 10px 0 !important;
   padding: 10px 14px;
 }
+
+/* ==============================================================
+   콘텐츠 추천 항목 타이틀과 설명 색상 분리
+   ============================================================== */
+   .markdown-body .content-recommend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-line);
+    padding: 12px 18px;
+    margin-top: 18px;
+    margin-bottom: 6px;
+  }
+  
+  /* 추천 작품/채널 제목 (메인 색상 강조) */
+  .markdown-body .recommend-main-title {
+    font-family: var(--font-serif-body);
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1.05rem;
+    display: block;
+  }
+  
+  /* 추천 작품 아래 설명/부가 텍스트 (차분한 색상으로 분리) */
+  .markdown-body .recommend-description {
+    font-family: var(--font-serif-body);
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    display: block;
+    margin-top: 4px;
+  }
+  
+  .markdown-body .recommend-yt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-dark);
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-family: var(--font-serif-title), var(--font-sans);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  
+  .markdown-body .recommend-yt-btn:hover {
+    background: var(--gold-accent);
+    color: #ffffff;
+  }

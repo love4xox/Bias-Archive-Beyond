@@ -80,55 +80,67 @@
    
      let parsed = text;
    
-     // 1. [콘텐츠 추천 항목 유튜브 버튼 부착] (가장 먼저 실행)
-     // 《작품명》 또는 <작품명>이 포함된 추천 행을 정확히 포착
-     parsed = parsed.replace(/^[ \t]*(?:[•\-\*]\s*)?((?:[^\n<《]*?(?:드라마|영화|유튜브|YouTube|예능|채널|앨범|도서|웹툰|작품|OST)[^\n<《]*?)\s*[《<]([^》>\n]+)[》>][^\n]*)/gim, (match, fullLine, keyword) => {
-       // 섹션 대제목은 제외
-       if (/연관\s*콘텐츠\s*추천|분석\s*리포트|영업\s*한마디/i.test(fullLine)) {
+     // 1. [콘텐츠 추천 항목 유튜브 버튼 부착 및 제목/설명 스타일 분리]
+     parsed = parsed.replace(/^[ \t]*(?:[•\-\*]\s*)?((?:\[(?:Music Video|Movie|Drama|YouTube|유튜브|드라마|영화|채널|OST)\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
+       if (/연관\s*콘텐츠|추천\s*콘텐츠|분석\s*리포트|영업\s*한마디/i.test(lineContent)) {
          return match;
        }
-       const cleanKeyword = keyword.trim();
+   
+       let keyword = lineContent;
+       const quoteMatch = lineContent.match(/'([^']+)'/);
+       const bracketMatch = lineContent.match(/[《<]([^》>]+)[》>]/);
+       
+       if (quoteMatch) {
+         keyword = quoteMatch[1];
+       } else if (bracketMatch) {
+         keyword = bracketMatch[1];
+       }
+   
+       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").trim();
        const ytUrl = typeof getYoutubeSearchUrl === "function"
          ? getYoutubeSearchUrl(cleanKeyword)
          : `https://www.youtube.com/results?search_query=${encodeURIComponent(cleanKeyword)}`;
    
-       return `<div class="content-recommend-item"><span class="recommend-title">${fullLine.replace(/^[•\-\*]\s*/, '')}</span><a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">▶ YouTube 영상 보기</a></div>`;
+       return `<div class="content-recommend-item">
+                 <div>
+                   <span class="recommend-main-title">${lineContent.trim()}</span>
+                 </div>
+                 <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">▶ YouTube 영상 보기</a>
+               </div>`;
      });
    
-     // 2. [헤딩 태그] (####, ###, ##, #)
-     parsed = parsed
+     // 2. 일반 마크다운 포맷팅 적용
+     let parsedMarkdown = parsed
        .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
        .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
        .replace(/^\s*##\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
        .replace(/^\s*#\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
-       // 3. [구분선]
        .replace(/^\s*---\s*$/gm, '<hr class="editorial-divider">')
-       // 4. [인용구]
        .replace(/^\s*>\s*(.+)$/gm, '<blockquote>$1</blockquote>')
-       // 5. [볼드 & 이탤릭]
        .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-       // 6. [인라인 태그]
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>');
    
-     // 7. [진짜 소제목/포인트만 ✦로 변환] (콜론이 있거나 35자 이하의 불릿만 적용)
-     parsed = parsed.replace(/^\s*[•\-\*]\s*(.+)$/gm, (match, content) => {
-       if (content.includes(':') || content.length <= 35) {
+     // 3. 소제목(✦) 정돈 및 일반 본문 처리
+     let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]\s*(.+)$/gm, (match, content) => {
+       if (content.includes('content-recommend-item') || content.includes('YouTube 영상 보기')) {
+         return match;
+       }
+       if (content.includes(':') && content.length <= 40) {
          return `<p class="editorial-point">✦ ${content}</p>`;
        }
        return `<p class="editorial-text">${content}</p>`;
      });
    
-     // 8. [여백 및 줄바꿈 압축]
-     parsed = parsed
-       .replace(/\n{2,}/g, '\n') // 불필요한 연속 개행을 단일 줄바꿈으로 압축
+     // 4. 줄바꿈 정리
+     finalParsed = finalParsed
+       .replace(/\n{2,}/g, '\n')
        .replace(/\n/g, '<br>');
    
-     // 연속된 blockquote 태그 합치기
-     parsed = parsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*)*<blockquote>/gi, '<br>');
+     finalParsed = finalParsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*)*<blockquote>/gi, '<br>');
    
-     return parsed;
+     return finalParsed;
    }
    
    const parseMarkdown = formatMarkdown;
