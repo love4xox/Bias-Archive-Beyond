@@ -87,7 +87,7 @@
      // 불필요한 백틱 코드 블록 기호 제거
      parsed = parsed.replace(/```[a-z]*\n?/g, '').replace(/```/g, '');
    
-     // 1. [유튜브 버튼 주입]: 대괄호 태그가 포함된 추천 항목 감지
+     // 1. [유튜브 버튼 주입]: 대괄호 태그([Music Video], [Album], [드라마] 등)가 포함된 항목을 감지하여 버튼 HTML 생성
      parsed = parsed.replace(/^[ \t]*(?:[①-⑨0-9]+\.?)?\s*(?:[•\-\*]?\s*)?(?:[\p{Emoji}\u2600-\u27BF]\s*)*((?:\[[^\]]+\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
        if (/연관\s*콘텐츠|추천\s*콘텐츠|분석\s*리포트|영업\s*한마디/i.test(lineContent)) {
          return match;
@@ -103,7 +103,7 @@
          keyword = bracketMatch[1];
        }
    
-       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").replace(/[🎬🎤📱💻📦①②③④⑤⑥⑦⑧⑨🎞️]/g, "").trim();
+       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").replace(/[🎬🎤📱💻📦①②③④⑤⑥⑦⑧⑨🎞️📺📀]/g, "").trim();
        const ytUrl = getYoutubeSearchUrl(cleanKeyword);
    
        return `<div class="content-recommend-item">
@@ -127,9 +127,9 @@
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>');
    
-     // 3. 소제목(✦) 정돈 및 일반 본문 처리
+     // 3. 소제목(✦) 정돈 및 일반 본문 처리 (이미 HTML 태그로 변환된 항목들은 건너뜀)
      let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]?\s*(.+)$/gm, (match, content) => {
-       if (content.includes('content-recommend-item') || content.includes('YouTube 영상 보기') || content.includes('<blockquote>')) {
+       if (content.includes('content-recommend-item') || content.includes('recommend-yt-btn') || content.includes('<blockquote>')) {
          return match;
        }
        if (content.includes(':') && content.length <= 40) {
