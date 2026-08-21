@@ -923,26 +923,38 @@
   }
 
   /* ==============================================================
-   모바일 반응형 네비게이션 가로 스크롤 최적화
+   모바일 반응형 네비게이션 가로 스크롤 완전 해결
    ============================================================== */
 @media (max-width: 768px) {
   .magazine-nav {
+    display: block !important;
+    width: 100% !important;
     overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    padding-bottom: 6px !important;
+    scrollbar-width: thin;
+  }
+
+  .magazine-nav .nav-container {
     display: flex !important;
-    justify-content: flex-start !important;
-    padding-bottom: 4px;
+    width: max-content !important;
+    gap: 8px !important;
   }
 
   .nav-btn {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
     flex: 0 0 auto !important;
-    min-width: 75px !important;
-    padding: 6px 4px !important;
+    width: 80px !important;
+    min-width: 80px !important;
+    padding: 6px 2px !important;
   }
 
   .nav-btn .nav-title {
-    font-size: 0.82rem !important;
+    font-size: 0.8rem !important;
   }
 
   .nav-btn .nav-num,
