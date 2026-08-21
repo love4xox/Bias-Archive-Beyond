@@ -880,13 +880,13 @@
 .markdown-body .editorial-point {
   font-weight: 700;
   margin-top: 14px !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 2px !important;
 }
 
 /* 본문 (일반 굵기, 편안한 간격) */
 .markdown-body p,
 .markdown-body .editorial-text {
   font-weight: 400;
-  margin-top: 2px !important;
+  margin-top: 0px !important;
   margin-bottom: 10px !important;
 }

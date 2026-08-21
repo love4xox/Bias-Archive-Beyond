@@ -77,160 +77,82 @@
    }
    
    /* ==============================================================
-      4. UI & FORMATTING MODULE (마크다운 파서 및 유튜브 버튼 주입)
-      ============================================================== */
-   function formatMarkdown(text) {
-     if (!text) return "";
-   
-     let parsed = text;
-   
-     // [최종 개선된 유튜브 버튼 주입 정규식]: 번호(①, ② 등), 대괄호([Music Video], [Album] 등)를 완벽하게 감지
-     parsed = parsed.replace(/^[ \t]*(?:[①-⑨0-9]+\.?)?\s*(?:[•\-\*]?\s*)?((?:\[[^\]]+\])\s*[^《<\n]+(?:'[^']+'|[《<][^》>]+[》>])?[^\n]*)/gim, (match, lineContent) => {
-       if (/연관\s*콘텐츠|추천\s*콘텐츠|분석\s*리포트|영업\s*한마디/i.test(lineContent)) {
-         return match;
-       }
-   
-       let keyword = lineContent;
-       const quoteMatch = lineContent.match(/'([^']+)'/);
-       const bracketMatch = lineContent.match(/[《<]([^》>]+)[》>]/);
-       
-       if (quoteMatch) {
-         keyword = quoteMatch[1];
-       } else if (bracketMatch) {
-         keyword = bracketMatch[1];
-       }
-   
-       // 대괄호 및 특수문자 제거 후 순수 검색 키워드 추출
-       const cleanKeyword = keyword.replace(/\[.*?\]/g, "").replace(/[🎬🎤📱💻📦①②③④⑤⑥⑦⑧⑨]/g, "").trim();
-       const ytUrl = getYoutubeSearchUrl(cleanKeyword);
-   
-       return `<div class="content-recommend-item">
-                 <div>
-                   <span class="recommend-main-title">${match.trim()}</span>
-                 </div>
-                 <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">▶ YouTube 영상 보기</a>
-               </div>`;
-     });
-   
-     // 일반 마크다운 포맷팅 적용
-     let parsedMarkdown = parsed
-       .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
-       .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
-       .replace(/^\s*##\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
-       .replace(/^\s*#\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
-       .replace(/^\s*---\s*$/gm, '<hr class="editorial-divider">')
-       .replace(/^\s*>\s*(.+)$/gm, '<blockquote>$1</blockquote>')
-       .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
-       .replace(/\*(.*?)\*/g, '<em>$1</em>')
-       .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>');
-   
-     // 소제목(✦) 정돈 및 일반 본문 처리
-     let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]?\s*(.+)$/gm, (match, content) => {
-       if (content.includes('content-recommend-item') || content.includes('YouTube 영상 보기')) {
-         return match;
-       }
-       if (content.includes(':') && content.length <= 40) {
-         return `<p class="editorial-point">✦ ${content}</p>`;
-       }
-       return `<p class="editorial-text">${content}</p>`;
-     });
-   
-     // 줄바꿈 정리
-     finalParsed = finalParsed
-       .replace(/\n{2,}/g, '\n')
-       .replace(/\n/g, '<br>');
-   
-     finalParsed = finalParsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*)*<blockquote>/gi, '<br>');
-   
-     return finalParsed;
-   }
-   
-   const parseMarkdown = formatMarkdown;
-   
-   function switchTab(tabName) {
-     document.querySelectorAll(".tab-content").forEach((el) => el.classList.remove("active"));
-     document.querySelectorAll(".nav-btn").forEach((btn) => btn.classList.remove("active"));
-   
-     const targetSec = document.getElementById(`${tabName}-section`);
-     if (targetSec) targetSec.classList.add("active");
-   
-     const targetBtn = document.querySelector(`[data-tab="${tabName}"]`);
-     if (targetBtn) targetBtn.classList.add("active");
-   
-     const sideLabel = document.getElementById("page-side-label");
-     if (sideLabel) {
-       const tabTitles = {
-         chat: "PAGE 01 · CRITIC EDITION ◆",
-         curation: "PAGE 02 · SELECTION ◆",
-         archive: "PAGE 03 · ARCHIVE BOOK ◆",
-         essay: "PAGE 04 · ESSAY NOTE ◆",
-         moodboard: "PAGE 05 · MOODBOARD ◆",
-       };
-       sideLabel.textContent = tabTitles[tabName] || "PAGE 01 · EDITORIAL ◆";
-     }
-   
-     if (tabName === "archive") {
-       renderArchiveList();
-     }
-   }
-   
-   function renderArchiveList() {
-     const container = document.getElementById("archive-list");
-     if (!container) return;
-   
-     const records = getRecords();
-   
-     if (records.length === 0) {
-       container.innerHTML = `
-         <div class="empty-state">
-           <h3 style="font-family: var(--font-serif-title); font-size: 1.3rem; margin-bottom: 8px;">ARCHIVE IS EMPTY</h3>
-           <p>편철된 평론이나 에세이가 없습니다. 01번 또는 04번 지면에서 기록을 남겨보세요.</p>
-         </div>
-       `;
-       return;
-     }
-   
-     container.innerHTML = `
-       <div class="archive-stack">
-         ${records.map((item) => {
-           const date = new Date(item.createdAt).toLocaleDateString("ko-KR", {
-             year: "numeric",
-             month: "short",
-             day: "numeric",
-           });
-           const ytSearch = `https://www.youtube.com/results?search_query=${encodeURIComponent(item.category + ' ' + (item.title || item.message))}`;
-   
-           return `
-             <div class="archive-entry">
-               <div class="entry-top">
-                 <span class="entry-category">${item.category}</span>
-                 <span class="entry-date">${date}</span>
-               </div>
-               <h3 class="entry-title">${item.title || item.message}</h3>
-               <div class="markdown-body">${parseMarkdown(item.reply)}</div>
-               <div class="entry-bottom">
-                 <a href="${ytSearch}" target="_blank" rel="noopener noreferrer" class="yt-link">
-                   ▶ 관련 아카이브 영상 탐색
-                 </a>
-                 <button class="btn-delete" data-action="delete" data-id="${item.id}">기록 삭제</button>
-               </div>
-             </div>
-           `;
-         }).join("")}
-       </div>
-     `;
-   
-     container.querySelectorAll('[data-action="delete"]').forEach((btn) => {
-       btn.addEventListener("click", (e) => {
-         const id = e.target.dataset.id;
-         if (confirm("이 아카이브 기록을 삭제하시겠습니까?")) {
-           deleteRecord(id);
-           renderArchiveList();
-         }
-       });
-     });
-   }
+   4. UI & FORMATTING MODULE (마크다운 파서 및 유튜브 버튼 주입)
+   ============================================================== */
+function formatMarkdown(text) {
+  if (!text) return "";
+
+  // 1️⃣ 백틱 제거 (파란줄 방지)
+  let parsed = text.replace(/```/g, "").replace(/`/g, "");
+
+  // 2️⃣ 줄 단위로 처리 → 유튜브 버튼 주입
+  const lines = parsed.split("\n");
+  const processedLines = lines.map((line) => {
+    const bracketMatch = line.match(/《([^》]+)》/);
+    const quoteMatch = line.match(/'([^']+)'/);
+
+    // 제목/설명 줄은 그대로
+    if (/추천\s*이유|킬링\s*포인트|콘텐츠\s*\d+선/.test(line)) {
+      return line;
+    }
+
+    // 《》 또는 '' 있으면 → 유튜브 버튼!
+    if (bracketMatch || quoteMatch) {
+      const keyword = bracketMatch ? bracketMatch[1] : quoteMatch[1];
+      const ytUrl = getYoutubeSearchUrl(keyword);
+      return `
+        <div class="content-recommend-item">
+          <div>
+            <span class="recommend-main-title">${line.trim()}</span>
+          </div>
+          <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" 
+             class="recommend-yt-btn">▶ YouTube 영상 보기</a>
+        </div>`;
+    }
+
+    return line;
+  });
+
+  parsed = processedLines.join("\n");
+
+  // 3️⃣ 일반 마크다운 포맷팅 적용
+  let parsedMarkdown = parsed
+    .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
+    .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
+    .replace(/^\s*##\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
+    .replace(/^\s*#\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
+    .replace(/^\s*---\s*$/gm, '<hr class="editorial-divider">')
+    .replace(/^\s*>\s*(.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+  // 4️⃣ 소제목(✦) 정돈 및 본문 처리
+  let finalParsed = parsedMarkdown.replace(/^\s*[•\-\*]?\s*(.+)$/gm, (match, content) => {
+    // 유튜브 버튼/HTML 태그는 건드리지 않음!
+    if (content.includes('content-recommend-item') || 
+        content.includes('YouTube 영상 보기') ||
+        content.includes('recommend-yt-btn') ||
+        content.includes('<')) {
+      return match;
+    }
+    if (content.includes(':') && content.length <= 40) {
+      return `<p class="editorial-point">✦ ${content}</p>`;
+    }
+    return `<p class="editorial-text">${content}</p>`;
+  });
+
+  // 5️⃣ 줄바꿈 정리
+  finalParsed = finalParsed
+    .replace(/\n{2,}/g, '\n')
+    .replace(/\n/g, '<br>');
+
+  finalParsed = finalParsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*)*<blockquote>/gi, '<br>');
+
+  return finalParsed;
+}
+
+const parseMarkdown = formatMarkdown;
    
    /* ==============================================================
       5. EVENT INITIALIZATION
