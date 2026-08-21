@@ -319,32 +319,6 @@
      color: var(--text-main);
    }
    
-   .markdown-body {
-     font-family: var(--font-serif-body);
-     font-size: 1.05rem;
-     line-height: 2;
-     color: var(--text-main);
-   }
-   
-   .markdown-body h2, .markdown-body h3 {
-     font-family: var(--font-serif-body);
-     color: var(--gold-dark);
-     margin-top: 28px;
-     margin-bottom: 10px;
-     border-left: 3px solid var(--gold-accent);
-     padding-left: 12px;
-   }
-   
-   .markdown-body strong {
-     color: var(--gold-dark);
-     font-weight: 700;
-   }
-   
-   .markdown-body li {
-     margin-left: 24px;
-     margin-bottom: 6px;
-   }
-   
    .report-footer {
      margin-top: 32px;
      padding-top: 20px;
@@ -493,17 +467,6 @@
      color: var(--text-muted);
    }
    
-   .markdown-body p:first-of-type::first-letter {
-     font-family: var(--font-serif-title);
-     font-size: 3.2rem;
-     float: left;
-     line-height: 0.85;
-     margin-right: 12px;
-     margin-top: 4px;
-     color: var(--gold-dark);
-     font-weight: 700;
-   }
-   
    .magazine-badge {
      display: inline-flex;
      align-items: center;
@@ -639,36 +602,84 @@
    }
    
    /* ==============================================================
-      마크다운 렌더링 세부 스타일 (인용구, 태그, 구분선)
+      마크다운 렌더링 세부 스타일
       ============================================================== */
+   
+   .markdown-body {
+     font-family: var(--font-serif-body);
+     font-size: 1.05rem;
+     line-height: 1.85;
+     color: var(--text-main);
+   }
+   
+   .markdown-body p:first-of-type::first-letter {
+     font-family: var(--font-serif-title);
+     font-size: 3.2rem;
+     float: left;
+     line-height: 0.85;
+     margin-right: 12px;
+     margin-top: 4px;
+     color: var(--gold-dark);
+     font-weight: 700;
+   }
+   
+   /* 제목 및 소제목 스타일 */
+   .markdown-body h2,
+   .markdown-body h3,
+   .markdown-body .editorial-h2,
+   .markdown-body .editorial-h3,
+   .markdown-body .editorial-h4 {
+     font-family: var(--font-serif-body);
+     color: var(--gold-dark);
+     border-left: 3px solid var(--gold-accent);
+     padding-left: 10px;
+     margin-top: 24px;
+     margin-bottom: 8px;
+     font-weight: 700;
+   }
+   
+   .markdown-body .editorial-h4 {
+     font-size: 1.15rem;
+   }
+   
+   /* 서브 포인트(✦ 소제목) */
+   .markdown-body .editorial-point {
+     font-family: var(--font-serif-body);
+     font-size: 1.08rem;
+     font-weight: 700;
+     color: var(--gold-dark);
+     margin-top: 24px;
+     margin-bottom: 6px;
+     letter-spacing: -0.01em;
+   }
+   
+   /* 문단 사이 적정 여백 */
+   .markdown-body .paragraph-gap {
+     height: 16px;
+   }
    
    /* 인용구 (한 줄 평론 요약 등) */
    .markdown-body blockquote {
-     margin: 16px 0;
-     padding: 14px 20px;
+     margin: 14px 0;
+     padding: 12px 18px;
      background: var(--input-bg);
      border-left: 3px solid var(--gold-accent);
      font-family: var(--font-serif-sub), "Nanum Myeongjo", serif;
      font-style: italic;
      font-size: 1.05rem;
      color: var(--gold-dark);
-     line-height: 1.8;
+     line-height: 1.7;
    }
    
-   /* 인용구 내부 문단 여백 정돈 */
    .markdown-body blockquote p {
      margin: 6px 0;
      font-style: italic;
    }
    
-   /* h4 소제목 스타일 */
-   .markdown-body h4 {
-     font-family: var(--font-serif-body);
-     font-size: 1.15rem;
-     font-weight: 700;
-     color: var(--gold-dark);
-     margin-top: 24px;
-     margin-bottom: 8px;
+   .markdown-body blockquote br {
+     content: "";
+     display: block;
+     margin: 6px 0;
    }
    
    /* 감성 태그 칩 (`#키워드`) */
@@ -690,39 +701,60 @@
      margin: 28px 0;
    }
    
-   /* 이탤릭 및 강조 */
+   /* 볼드 및 이탤릭 */
+   .markdown-body strong {
+     color: var(--gold-dark);
+     font-weight: 700;
+   }
+   
    .markdown-body em {
      font-style: italic;
      color: var(--gold-dark);
    }
-
-   /* 제목 및 문단 여백 최적화 */
-.markdown-body .editorial-h2,
-.markdown-body .editorial-h3,
-.markdown-body .editorial-h4 {
-  color: var(--gold-dark);
-  border-left: 3px solid var(--gold-accent);
-  padding-left: 10px;
-  margin-top: 22px;
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-
-.markdown-body .editorial-h4 {
-  font-size: 1.15rem;
-}
-
-.markdown-body blockquote {
-  margin: 12px 0;
-  padding: 12px 18px;
-  background: var(--input-bg);
-  border-left: 3px solid var(--gold-accent);
-  font-style: italic;
-  line-height: 1.7;
-}
-
-.markdown-body blockquote br {
-  content: "";
-  display: block;
-  margin: 6px 0;
-}
+   
+   .markdown-body li {
+     margin-left: 24px;
+     margin-bottom: 6px;
+   }
+   
+   /* 콘텐츠 추천 항목 & 유튜브 바로가기 버튼 */
+   .markdown-body .content-recommend-item {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     flex-wrap: wrap;
+     gap: 10px;
+     background: var(--input-bg);
+     border: 1px solid var(--border-line);
+     padding: 10px 16px;
+     margin-top: 20px;
+     margin-bottom: 8px;
+   }
+   
+   .markdown-body .recommend-title {
+     font-family: var(--font-serif-body);
+     font-weight: 700;
+     color: var(--text-main);
+     font-size: 1.02rem;
+   }
+   
+   .markdown-body .recommend-yt-btn {
+     display: inline-flex;
+     align-items: center;
+     gap: 6px;
+     background: transparent;
+     border: 1px solid var(--gold-accent);
+     color: var(--gold-dark);
+     padding: 4px 10px;
+     font-size: 0.78rem;
+     font-family: var(--font-serif-title), var(--font-sans);
+     letter-spacing: 0.05em;
+     text-decoration: none;
+     transition: var(--transition);
+     white-space: nowrap;
+   }
+   
+   .markdown-body .recommend-yt-btn:hover {
+     background: var(--gold-accent);
+     color: #ffffff;
+   }

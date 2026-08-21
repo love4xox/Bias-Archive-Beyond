@@ -79,7 +79,7 @@
      if (!text) return "";
    
      let parsed = text
-       // 1. 헤딩 태그 (####, ###, ##, #) - 줄 앞 공백 허용
+       // 1. 헤딩 태그 (####, ###, ##, #)
        .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
        .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
        .replace(/^\s*##\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
@@ -88,22 +88,37 @@
        .replace(/^\s*---\s*$/gm, '<hr class="editorial-divider">')
        // 3. 인용구 (> 문장)
        .replace(/^\s*>\s*(.+)$/gm, '<blockquote>$1</blockquote>')
-       // 4. 볼드 + 이탤릭 (***텍스트***)
+       // 4. 볼드 + 이탤릭 / 볼드 / 이탤릭
        .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-       // 5. 볼드 (**텍스트**)
-       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-       // 6. 이탤릭 (*텍스트*)
+       .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-       // 7. 인라인 태그 / 코드 (`#태그`)
+       // 5. 인라인 태그 / 코드 (`#태그`)
        .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>')
-       // 8. 불릿 리스트 (*, -, •)
-       .replace(/^\s*[•\-\*]\s*(.+)$/gm, '<li>$1</li>')
-       // 9. 불필요한 연속 개행 정리 및 줄바꿈
+       // 6. 콘텐츠 추천 번호(①, ②, ③ 또는 1., 2.)가 있을 때 youtube.js 함수로 검색 URL 생성
+       .replace(/^\s*([①②③④⑤\d]+[\.\)]?\s*(?:드라마|영화|유튜브|앨범|도서|웹툰|작품|무대)?\s*<([^>]+)>.*$)/gim, (match, fullLine, keyword) => {
+         // youtube.js의 함수 활용 (미로드 시 fallback URL 생성)
+         const ytUrl = typeof getYoutubeSearchUrl === "function"
+           ? getYoutubeSearchUrl(keyword)
+           : `https://www.youtube.com/results?search_query=${encodeURIComponent(keyword)}`;
+   
+         return `
+           <div class="content-recommend-item">
+             <span class="recommend-title">${fullLine}</span>
+             <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">
+               ▶ YouTube 영상 탐색
+             </a>
+           </div>
+         `;
+       })
+       // 7. 소제목형 불릿 포인트 (• 또는 - 뒤에 나오는 소제목을 단정하게 변환)
+       .replace(/^\s*[•\-\*]\s*(.+)$/gm, '<p class="editorial-point">✦ $1</p>')
+       // 8. 과도한 빈 줄(개행) 압축 및 단락 여백 생성
        .replace(/\n{3,}/g, '\n\n')
+       .replace(/\n\n/g, '<div class="paragraph-gap"></div>')
        .replace(/\n/g, '<br>');
    
-     // 연속된 blockquote 태그 합치기
-     parsed = parsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*)*<blockquote>/gi, '<br>');
+     // 연속된 blockquote 태그 단일 박스로 합치기
+     parsed = parsed.replace(/<\/blockquote>(?:\s*<br\s*\/?>\s*|\s*<div class="paragraph-gap"><\/div>\s*)*<blockquote>/gi, '<br>');
    
      return parsed;
    }
@@ -204,7 +219,7 @@
    
      const themeToggleBtn = document.getElementById("theme-toggle-btn");
      const navBtns = document.querySelectorAll(".nav-btn");
-     
+   
      // 1번 탭 (평론 의뢰)
      const analyzeForm = document.getElementById("analyze-form");
      const inputMessage = document.getElementById("input-message");
