@@ -12,7 +12,7 @@ if api_key:
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
-        # 1. CORS 헤더 설정
+        # CORS 헤더 설정
         self.send_response(200)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -21,7 +21,6 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
         try:
-            # 2. 요청 본문 읽기
             content_length = int(self.headers.get("Content-Length", 0))
             post_data = self.rfile.read(content_length).decode("utf-8")
             body = json.loads(post_data) if post_data else {}
@@ -39,28 +38,29 @@ class handler(BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps(response_data, ensure_ascii=False).encode("utf-8"))
                 return
 
-            # 3. Gemini 모델 호출
-            model = genai.GenerativeModel(
-                model_name="gemini-3.5-flash",
-                system_instruction=SYSTEM_PROMPT
-            )
+            # 가장 안정적인 방식으로 모델 호출
+            model = genai.GenerativeModel(model_name="gemini-3.5-flash")
             
-            prompt_input = f"[카테고리: {category}]\n내용: {user_message}"
-            response = model.generate_content(prompt_input)
+            full_prompt = f"{SYSTEM_PROMPT}\n\n[카테고리: {category}]\n대상/키워드: {user_message}"
+            response = model.generate_content(full_prompt)
             
-            # 4. 결과 반환
+            reply_text = ""
+            if response and hasattr(response, 'text'):
+                reply_text = response.text
+            else:
+                reply_text = "응답을 생성하지 못했습니다."
+
             response_data = {
-                "reply": response.text,
+                "reply": reply_text,
                 "category": category
             }
             self.wfile.write(json.dumps(response_data, ensure_ascii=False).encode("utf-8"))
 
         except Exception as e:
-            error_data = {"error": f"서버 오류가 발생했습니다: {str(e)}"}
+            error_data = {"error": f"서버 오류: {str(e)}"}
             self.wfile.write(json.dumps(error_data, ensure_ascii=False).encode("utf-8"))
 
     def do_OPTIONS(self):
-        # CORS preflight 처리
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
