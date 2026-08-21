@@ -78,8 +78,10 @@
    function formatMarkdown(text) {
      if (!text) return "";
    
-     let parsed = text
-       // 1. 헤딩 태그 (####, ###, ##, #)
+     let parsed = text;
+   
+     // 1. 헤딩 태그 (####, ###, ##, #)
+     parsed = parsed
        .replace(/^\s*####\s*(.*$)/gim, '<h4 class="editorial-h4">$1</h4>')
        .replace(/^\s*###\s*(.*$)/gim, '<h3 class="editorial-h3">$1</h3>')
        .replace(/^\s*##\s*(.*$)/gim, '<h2 class="editorial-h2">$1</h2>')
@@ -93,24 +95,26 @@
        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-dark);">$1</strong>')
        .replace(/\*(.*?)\*/g, '<em>$1</em>')
        // 5. 인라인 태그 / 코드 (`#태그`)
-       .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>')
-       // 6. 콘텐츠 추천 항목 감지 (《작품명》, <작품명>, [드라마/영화/유튜브] 등 모든 패턴 대응)
-       .replace(/^\s*([•\-\*]?\s*(?:[①②③④⑤\d]+[\.\)]?\s*)?(?:\[(?:드라마|영화|유튜브|YouTube|예능|도서|웹툰|앨범|무대|작품)[^\]]*\])?\s*[《<]([^》>]+)[》>].*$)/gim, (match, fullLine, keyword) => {
-         const cleanKeyword = keyword.trim();
-         const ytUrl = typeof getYoutubeSearchUrl === "function"
-           ? getYoutubeSearchUrl(cleanKeyword)
-           : `https://www.youtube.com/results?search_query=${encodeURIComponent(cleanKeyword)}`;
+       .replace(/`([^`]+)`/g, '<span class="critic-tag">$1</span>');
    
-         return `
-           <div class="content-recommend-item">
-             <span class="recommend-title">${fullLine.replace(/^[•\-\*]\s*/, '')}</span>
-             <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">
-               ▶ YouTube 영상 보기
-             </a>
-           </div>
-         `;
-       })
-       // 7. 일반 소제목형 불릿 포인트 (• 또는 - 뒤에 나오는 텍스트)
+     // 6. [엄격한 개별 추천 항목만 유튜브 버튼 생성]
+     // 조건: ①/②/③ 또는 숫자 번호로 시작하고, <작품명> 또는 《작품명》이 명확히 존재하는 한 줄
+     parsed = parsed.replace(/^\s*(?:[•\-\*]\s*)?([①②③④⑤\d]+[\.\)]\s*(?:\[[^\]]+\]\s*)?[^《<\n]*[《<]([^》>\n]+)[》>][^\n]*)$/gim, (match, fullLine, keyword) => {
+       // 섹션 제목(추천, 리포트, 분석, 영업 등) 단어가 들어가면 버튼 생성 제외
+       if (/연관\s*콘텐츠|분석\s*리포트|영업\s*한마디|입덕/i.test(fullLine)) {
+         return match;
+       }
+   
+       const cleanKeyword = keyword.trim();
+       const ytUrl = typeof getYoutubeSearchUrl === "function"
+         ? getYoutubeSearchUrl(cleanKeyword)
+         : `https://www.youtube.com/results?search_query=${encodeURIComponent(cleanKeyword)}`;
+   
+       return `<div class="content-recommend-item"><span class="recommend-title">${fullLine}</span><a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="recommend-yt-btn">▶ YouTube 영상 보기</a></div>`;
+     });
+   
+     // 7. 일반 소제목형 불릿 포인트 (• 또는 - 뒤에 나오는 일반 텍스트)
+     parsed = parsed
        .replace(/^\s*[•\-\*]\s*(.+)$/gm, '<p class="editorial-point">✦ $1</p>')
        // 8. 과도한 빈 줄 정리 및 단락 여백 생성
        .replace(/\n{3,}/g, '\n\n')
