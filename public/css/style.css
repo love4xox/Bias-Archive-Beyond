@@ -922,60 +922,96 @@
     margin-top: 2px;
   }
 
-  /* ==============================================================
-   모바일 탭 메뉴 가로 정렬 및 스크롤 완벽 고정
+/* ==============================================================
+   네비게이션 탭 메뉴 (PC & 모바일 완벽 가로 정렬)
    ============================================================== */
-@media (max-width: 768px) {
-  .container {
-    overflow-x: hidden;
+   .magazine-nav {
+    width: 100%;
+    border-top: 1px solid var(--border-line);
+    border-bottom: 1px solid var(--border-line);
+    margin: 20px 0;
+    padding: 4px 0;
+    box-sizing: border-box;
   }
-
-  .magazine-nav {
-    display: block !important;
-    width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    white-space: nowrap !important;
-    padding: 6px 10px !important;
-    box-sizing: border-box !important;
-  }
-
-  .magazine-nav .nav-container {
+  
+  /* 기본(PC): 5개 균등 가로 분할 */
+  .nav-container {
     display: flex !important;
-    flex-wrap: nowrap !important;
-    justify-content: flex-start !important;
-    align-items: center !important;
-    width: max-content !important;
-    gap: 6px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 8px;
   }
-
-  .magazine-nav .nav-btn {
+  
+  .nav-btn {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    flex: 0 0 auto !important;
-    width: 78px !important;
-    min-width: 78px !important;
-    padding: 6px 2px !important;
     text-align: center !important;
-    box-sizing: border-box !important;
+    flex: 1 1 0 !important;
+    padding: 8px 4px !important;
+    line-height: 1.2 !important;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
   }
-
-  .magazine-nav .nav-btn .nav-num {
-    font-size: 0.72rem !important;
-    margin-bottom: 2px !important;
+  
+  .nav-btn .nav-num {
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+    opacity: 0.7;
   }
-
-  .magazine-nav .nav-btn .nav-title {
-    font-size: 0.78rem !important;
-    white-space: nowrap !important;
+  
+  .nav-btn .nav-title {
+    font-family: var(--font-serif-title, serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
   }
-
-  .magazine-nav .nav-btn .nav-desc {
-    font-size: 0.65rem !important;
-    white-space: nowrap !important;
-    margin-top: 2px !important;
+  
+  .nav-btn .nav-desc {
+    font-size: 0.75rem;
+    margin-top: 2px;
+    opacity: 0.8;
+    white-space: nowrap;
   }
-}
+  
+  /* 모바일 화면 (768px 이하): 가로 스크롤 허용 */
+  @media (max-width: 768px) {
+    .magazine-nav {
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      white-space: nowrap !important;
+      padding: 6px 8px !important;
+    }
+  
+    .nav-container {
+      width: max-content !important;
+      justify-content: flex-start !important;
+      gap: 6px !important;
+    }
+  
+    .nav-btn {
+      flex: 0 0 auto !important;
+      width: 78px !important;
+      min-width: 78px !important;
+      padding: 6px 2px !important;
+    }
+  
+    .nav-btn .nav-num {
+      font-size: 0.72rem !important;
+    }
+  
+    .nav-btn .nav-title {
+      font-size: 0.78rem !important;
+    }
+  
+    .nav-btn .nav-desc {
+      font-size: 0.65rem !important;
+    }
+  }
