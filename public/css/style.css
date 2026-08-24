@@ -640,3 +640,8 @@
 .curation-column .category-badge {
   color: var(--gold-accent, #c5a880) !important;
 }
+
+/* 사이드 인덱스 헤더 텍스트 완전 숨김 */
+.magazine-side-index {
+  display: none !important;
+}
