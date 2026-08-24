@@ -641,7 +641,15 @@
   color: var(--gold-accent, #c5a880) !important;
 }
 
-/* 사이드 인덱스 헤더 텍스트 완전 숨김 */
-.magazine-side-index {
+/* 사이드 인덱스 및 페이지 라벨 완전 숨김 */
+.magazine-side-index,
+#page-side-label,
+[class*="side-index"] {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
 }
