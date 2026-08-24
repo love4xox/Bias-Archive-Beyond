@@ -612,3 +612,31 @@
     text-align: right !important;
     margin-bottom: 20px !important;
   }
+
+  /* ==============================================================
+   소제목 및 추천 카드 타이틀 골드 브라운 톤 통일
+   ============================================================== */
+
+/* 1. 평론 리포트 내 소제목 (① 매력 포인트, ② 입덕 계기 등) */
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body .editorial-h2,
+.markdown-body .editorial-h3,
+.markdown-body .editorial-h4,
+.markdown-body .editorial-point {
+  color: var(--gold-dark, #9a7d55) !important;
+  font-family: var(--font-serif-body) !important;
+}
+
+/* 2. 에디터스 셀렉션 추천 카드 타이틀 (01. Filmography & Actor 등) */
+.curation-column h4,
+.curation-column h4 strong,
+.archive-entry .entry-title {
+  color: var(--gold-dark, #9a7d55) !important;
+}
+
+.curation-column h4 span,
+.curation-column .category-badge {
+  color: var(--gold-accent, #c5a880) !important;
+}
